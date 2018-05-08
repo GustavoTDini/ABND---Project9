@@ -1,0 +1,19 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.android.project9.InventoryActivity">
+    <item
+        android:id="@+id/add_dummy_item"
+        android:title="Add Dummy Product"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/empty_inventory"
+        android:title="Empty this Inventory"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/inventory_summary"
+        android:title="Inventory Summary"
+        app:showAsAction="never" />
+</menu>

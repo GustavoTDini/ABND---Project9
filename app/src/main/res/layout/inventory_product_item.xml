@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:padding="8dp">
+
+    <TextView
+        android:id="@+id/product_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/sell_button"
+        android:layout_alignParentStart="true"
+        android:text="PRODUTO" />
+
+    <TextView
+        android:id="@+id/buy_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/product_name"
+        android:layout_centerVertical="true"
+        android:text="Compra" />
+
+    <TextView
+        android:id="@+id/buy_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/sell_button"
+        android:layout_toEndOf="@+id/product_name"
+        android:text="R$XX" />
+
+    <TextView
+        android:id="@+id/sell_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/product_name"
+        android:layout_below="@+id/sell_button"
+        android:text="Venda" />
+
+    <TextView
+        android:id="@+id/sell_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toEndOf="@+id/product_name"
+        android:text="R$XX" />
+
+    <TextView
+        android:id="@+id/stock_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="Estoque" />
+
+    <TextView
+        android:id="@+id/stock_quantity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/sell_label"
+        android:layout_centerHorizontal="true"
+        android:text="Vários" />
+
+    <Button
+        android:id="@+id/sell_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:text="Vender" />
+
+
+</RelativeLayout>
