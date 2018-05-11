@@ -5,15 +5,13 @@ import android.content.ContentValues;
 import android.content.CursorLoader;
 import android.content.Loader;
 import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ListView;
 
 import com.example.android.project9.Data.InventoryContract.InventoryEntry;
@@ -31,29 +29,19 @@ public class InventoryActivity extends AppCompatActivity implements LoaderManage
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        // Find the ListView which will be populated with the pet data
-        ListView petListView = findViewById(R.id.inventory_list_view);
+        ListView InventoryListView = findViewById( R.id.inventory_list_view );
 
-        // Find and set empty view on the ListView, so that it only shows when the list has 0 items.
+        // Configura o empty list View
         View emptyView = findViewById(R.id.empty_view);
-        petListView.setEmptyView(emptyView);
+        InventoryListView.setEmptyView( emptyView );
 
-        // Setup an Adapter to create a list item for each row of pet data in the Cursor.
-        // There is no pet data yet (until the loader finishes) so pass in null for the Cursor.
+        // Configura o Adapter do DB
         mCursorAdapter = new InventoryCursorAdapter(this, null);
-        petListView.setAdapter(mCursorAdapter);
+        InventoryListView.setAdapter( mCursorAdapter );
 
         // Kick off the loader
         getLoaderManager().initLoader(INVENTORY_LOADER, null, this);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
     }
 
     @Override
@@ -68,10 +56,11 @@ public class InventoryActivity extends AppCompatActivity implements LoaderManage
         int id = item.getItemId();
 
         switch (id){
-            case (R.id.add_dummy_item):
-                insertPet();
+            case (R.id.add_sample_inventory):
+                insertSampleInventory();
                 break;
             case (R.id.empty_inventory):
+                deleteInventory();
                 break;
             case (R.id.inventory_summary):
                 break;
@@ -80,21 +69,41 @@ public class InventoryActivity extends AppCompatActivity implements LoaderManage
         return super.onOptionsItemSelected(item);
     }
 
-    public void insertPet(){
+    public void insertSampleInventory() {
 
-        // Create a ContentValues object where column names are the keys,
-        // and Toto's pet attributes are the values.
+        insertItem( "Cupcake", 1.5, 1.5, 3 );
+        insertItem( "Donut", 1.6, 1.6, 4 );
+        insertItem( "Eclair", 2.1, 2, 5 );
+        insertItem( "Frozen Yogurt", 2.3, 2.2, 8 );
+        insertItem( "Gingerbread", 2.7, 2.3, 9 );
+        insertItem( "Honeycomb", 3.2, 3.0, 11 );
+        insertItem( "Ice Cream Sandwich", 4.4, 4.0, 14 );
+        insertItem( "Jelly Bean", 4.3, 4.1, 16 );
+        insertItem( "KitKat", 4.4, 4.4, 19 );
+        insertItem( "Lollipop", 5.1, 5.0, 21 );
+        insertItem( "Marshmallow", 6.0, 6.0, 23 );
+        insertItem( "Nougat", 7.1, 7, 24 );
+        insertItem( "Oreo", 8.1, 8.0, 26 );
+
+    }
+
+    public void insertItem(String name, double sell, double buy, int stock) {
+
         ContentValues values = new ContentValues();
-        values.put(InventoryEntry.COLUMN_PRODUCT_NAME, "Cupcake");
-        values.put(InventoryEntry.COLUMN_PRODUCT_SELL_VALUE, 1.50);
-        values.put(InventoryEntry.COLUMN_PRODUCT_BUY_VALUE, 1.0);
-        values.put(InventoryEntry.COLUMN_PRODUCT_STOCK, 10);
+        values.put( InventoryEntry.COLUMN_PRODUCT_NAME, name );
+        values.put( InventoryEntry.COLUMN_PRODUCT_SELL_VALUE, sell );
+        values.put( InventoryEntry.COLUMN_PRODUCT_BUY_VALUE, buy );
+        values.put( InventoryEntry.COLUMN_PRODUCT_STOCK, stock );
 
-        // Insert a new row for Toto into the provider using the ContentResolver.
-        // Use the {@link PetEntry#CONTENT_URI} to indicate that we want to insert
-        // into the pets database table.
-        // Receive the new content URI that will allow us to access Toto's data in the future.
-        Uri newUri = getContentResolver().insert(InventoryEntry.CONTENT_URI, values);
+        getContentResolver().insert( InventoryEntry.CONTENT_URI, values );
+    }
+
+    /**
+     * Método auxiliar para esvaziar o inventário
+     */
+    private void deleteInventory() {
+        int rowsDeleted = getContentResolver().delete( InventoryEntry.CONTENT_URI, null, null );
+        Log.v( "CatalogActivity", rowsDeleted + " rows deleted inventory Database" );
     }
 
     @Override

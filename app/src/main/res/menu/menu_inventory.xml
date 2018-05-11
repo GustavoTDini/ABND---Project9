@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.example.android.project9.InventoryActivity">
     <item
-        android:id="@+id/add_dummy_item"
-        android:title="Add Dummy Product"
+        android:id="@+id/add_sample_inventory"
+        android:title="Add Sample Inventory"
         app:showAsAction="never" />
 
     <item
@@ -15,5 +15,10 @@
     <item
         android:id="@+id/inventory_summary"
         android:title="Inventory Summary"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/add_new_product"
+        android:title="Add New Product"
         app:showAsAction="never" />
 </menu>

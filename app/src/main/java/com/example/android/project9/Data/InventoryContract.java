@@ -6,17 +6,16 @@ import android.provider.BaseColumns;
 
 public class InventoryContract {
 
-    // Construtor Vazio para esta classe não ser acessada erroneamente
-    private InventoryContract() {}
-
     /**
      * O "Content authority" para o content provider deste contract
      */
     public static final String CONTENT_AUTHORITY = "com.example.android.project9";
-
     public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
-
     public static final String PATH_INVENTORY = "inventory";
+
+    // Construtor Vazio para esta classe não ser acessada erroneamente
+    private InventoryContract() {
+    }
 
     /**
      * Classe que irá representar cada mercadoria de em uma tabela que irá ter como dados o nome da mercadoria,
@@ -58,6 +57,13 @@ public class InventoryContract {
         public final static String COLUMN_PRODUCT_NAME ="name";
 
         /**
+         * Código do Produto
+         * <p>
+         * Type: INTEGER
+         */
+        public final static String COLUMN_PRODUCT_CODE = "code";
+
+        /**
          * Valor de Venda
          *
          * Type: REAL
@@ -77,6 +83,13 @@ public class InventoryContract {
          * Type: INTEGER
          */
         public final static String COLUMN_PRODUCT_STOCK = "stock";
+
+        /**
+         * Imagem do Produto
+         * <p>
+         * Type: BLOB
+         */
+        public final static String COLUMN_PRODUCT_IMAGE = "image";
 
     }
 }

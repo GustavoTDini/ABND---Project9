@@ -150,13 +150,8 @@ public class InventoryProvider extends ContentProvider {
         }
     }
 
-
-//                    + InventoryEntry.COLUMN_PRODUCT_NAME + " TEXT NOT NULL, "
-//            + InventoryEntry.COLUMN_PRODUCT_SELL_VALUE + " REAL NOT NULL, "
-//            + InventoryEntry.COLUMN_PRODUCT_BUY_VALUE + " REAL NOT NULL, "
-//            + InventoryEntry.COLUMN_PRODUCT_STOCK + " INTEGER NOT NULL DEFAULT 0);";
     /**
-     * Método de Inserção do novo produto ao Inventário
+     * Método de Inserção do novo produto ao Inventário, vetifica se
      * Retorna e nova Uri
      */
     private Uri insertDb(Uri uri, ContentValues values) {
