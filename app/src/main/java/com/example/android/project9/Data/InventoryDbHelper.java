@@ -33,9 +33,11 @@ public class InventoryDbHelper extends SQLiteOpenHelper {
         // Create a String that contains the SQL statement to create the pets table
         String SQL_CREATE_INVENTORY_TABLE =  "CREATE TABLE " + InventoryEntry.TABLE_NAME + " ("
                 + InventoryEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                + InventoryEntry.COLUMN_PRODUCT_NAME + " TEXT NOT NULL, " + InventoryEntry.COLUMN_PRODUCT_CODE + " INTEGER NOT NULL, "
+                + InventoryEntry.COLUMN_PRODUCT_NAME + " TEXT NOT NULL, "
+                + InventoryEntry.COLUMN_PRODUCT_CODE + " INTEGER NOT NULL, "
+                + InventoryEntry.COLUMN_PRODUCT_IMAGE + " BLOB, "
                 + InventoryEntry.COLUMN_PRODUCT_SELL_VALUE + " REAL NOT NULL, "
-                + InventoryEntry.COLUMN_PRODUCT_BUY_VALUE + " REAL NOT NULL, " + InventoryEntry.COLUMN_PRODUCT_IMAGE + " BLOB, "
+                + InventoryEntry.COLUMN_PRODUCT_BUY_VALUE + " REAL NOT NULL, "
                 + InventoryEntry.COLUMN_PRODUCT_STOCK + " INTEGER NOT NULL DEFAULT 0);";
 
         // Execute the SQL statement

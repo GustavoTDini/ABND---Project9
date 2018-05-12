@@ -162,6 +162,12 @@ public class InventoryProvider extends ContentProvider {
             throw new IllegalArgumentException("Product requires a name");
         }
 
+        // Verifica se o Codigo não é Null
+        String code = values.getAsString(InventoryEntry.COLUMN_PRODUCT_CODE);
+        if (code == null) {
+            throw new IllegalArgumentException("Product requires a code");
+        }
+
         // Verifica se o Valor de venda é maior que 0
         Long sellValue = values.getAsLong(InventoryEntry.COLUMN_PRODUCT_SELL_VALUE);
         if ( !(sellValue >0) ) {
@@ -223,6 +229,13 @@ public class InventoryProvider extends ContentProvider {
         if (values.containsKey(InventoryEntry.COLUMN_PRODUCT_NAME)) {
             String name = values.getAsString(InventoryEntry.COLUMN_PRODUCT_NAME);
             if (name == null) {
+                throw new IllegalArgumentException("Product requires a name");
+            }
+        }
+        // Verifica se o código é presente e não é Null
+        if (values.containsKey(InventoryEntry.COLUMN_PRODUCT_CODE)) {
+            String code = values.getAsString(InventoryEntry.COLUMN_PRODUCT_CODE);
+            if (code == null) {
                 throw new IllegalArgumentException("Product requires a name");
             }
         }

@@ -29,6 +29,7 @@ public class InventoryCursorAdapter extends CursorAdapter {
 
         //Localiza os Views para serem populados
         TextView nameTextView = view.findViewById(R.id.product_name);
+        TextView codeTextView = view.findViewById(R.id.code_value);
         TextView sellValueTextView = view.findViewById(R.id.sell_value);
         TextView buyValueTextView = view.findViewById(R.id.buy_value);
         TextView stockQunatityTextView = view.findViewById(R.id.stock_quantity);
@@ -38,6 +39,9 @@ public class InventoryCursorAdapter extends CursorAdapter {
         // separa as colunas do cursor para cada atributo e lê cada atributo
         int nameColumnIndex = cursor.getColumnIndex(InventoryEntry.COLUMN_PRODUCT_NAME);
         String productName = cursor.getString(nameColumnIndex);
+
+        int codeColumnIndex = cursor.getColumnIndex(InventoryEntry.COLUMN_PRODUCT_CODE);
+        String productCode = String.format("%06d", Integer.parseInt(cursor.getString(codeColumnIndex)));
 
         int sellColumnIndex = cursor.getColumnIndex(InventoryEntry.COLUMN_PRODUCT_SELL_VALUE);
         String sellValue = moneyFormat.format( cursor.getDouble( sellColumnIndex ) );
@@ -50,6 +54,7 @@ public class InventoryCursorAdapter extends CursorAdapter {
 
         // Atribui cada valor para o respectivo View
         nameTextView.setText(productName);
+        codeTextView.setText(productCode);
         sellValueTextView.setText(sellValue);
         buyValueTextView.setText(buyValue);
         stockQunatityTextView.setText(stockQuantity);

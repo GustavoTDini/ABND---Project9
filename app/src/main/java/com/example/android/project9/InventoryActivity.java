@@ -71,26 +71,27 @@ public class InventoryActivity extends AppCompatActivity implements LoaderManage
 
     public void insertSampleInventory() {
 
-        insertItem( "Cupcake", 1.5, 1.5, 3 );
-        insertItem( "Donut", 1.6, 1.6, 4 );
-        insertItem( "Eclair", 2.1, 2, 5 );
-        insertItem( "Frozen Yogurt", 2.3, 2.2, 8 );
-        insertItem( "Gingerbread", 2.7, 2.3, 9 );
-        insertItem( "Honeycomb", 3.2, 3.0, 11 );
-        insertItem( "Ice Cream Sandwich", 4.4, 4.0, 14 );
-        insertItem( "Jelly Bean", 4.3, 4.1, 16 );
-        insertItem( "KitKat", 4.4, 4.4, 19 );
-        insertItem( "Lollipop", 5.1, 5.0, 21 );
-        insertItem( "Marshmallow", 6.0, 6.0, 23 );
-        insertItem( "Nougat", 7.1, 7, 24 );
-        insertItem( "Oreo", 8.1, 8.0, 26 );
+        insertItem( "Cupcake", 1,1.5, 1.5, 3 );
+        insertItem( "Donut", 2,1.6, 1.6, 4 );
+        insertItem( "Eclair", 3,2.1, 2, 5 );
+        insertItem( "Frozen Yogurt", 4,2.3, 2.2, 8 );
+        insertItem( "Gingerbread", 5,2.7, 2.3, 9 );
+        insertItem( "Honeycomb", 6,3.2, 3.0, 11 );
+        insertItem( "Ice Cream Sandwich", 7,4.4, 4.0, 14 );
+        insertItem( "Jelly Bean", 8,4.3, 4.1, 16 );
+        insertItem( "KitKat", 9,4.4, 4.4, 19 );
+        insertItem( "Lollipop", 10,5.1, 5.0, 21 );
+        insertItem( "Marshmallow", 11,6.0, 6.0, 23 );
+        insertItem( "Nougat", 12,7.1, 7, 24 );
+        insertItem( "Oreo", 13,8.1, 8.0, 26 );
 
     }
 
-    public void insertItem(String name, double sell, double buy, int stock) {
+    public void insertItem(String name, int code, double sell, double buy, int stock) {
 
         ContentValues values = new ContentValues();
         values.put( InventoryEntry.COLUMN_PRODUCT_NAME, name );
+        values.put( InventoryEntry.COLUMN_PRODUCT_CODE, code );
         values.put( InventoryEntry.COLUMN_PRODUCT_SELL_VALUE, sell );
         values.put( InventoryEntry.COLUMN_PRODUCT_BUY_VALUE, buy );
         values.put( InventoryEntry.COLUMN_PRODUCT_STOCK, stock );
