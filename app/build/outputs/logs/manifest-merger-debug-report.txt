@@ -1,9 +1,9 @@
 -- Merging decision tree log ---
 manifest
-ADDED from /Users/SSJdini/AndroidStudioProjects/Project 9/app/src/main/AndroidManifest.xml:2:1-30:12
-INJECTED from /Users/SSJdini/AndroidStudioProjects/Project 9/app/src/main/AndroidManifest.xml:2:1-30:12
-INJECTED from /Users/SSJdini/AndroidStudioProjects/Project 9/app/src/main/AndroidManifest.xml:2:1-30:12
-INJECTED from /Users/SSJdini/AndroidStudioProjects/Project 9/app/src/main/AndroidManifest.xml:2:1-30:12
+ADDED from /Users/SSJdini/AndroidStudioProjects/Project 9/app/src/main/AndroidManifest.xml:2:1-35:12
+INJECTED from /Users/SSJdini/AndroidStudioProjects/Project 9/app/src/main/AndroidManifest.xml:2:1-35:12
+INJECTED from /Users/SSJdini/AndroidStudioProjects/Project 9/app/src/main/AndroidManifest.xml:2:1-35:12
+INJECTED from /Users/SSJdini/AndroidStudioProjects/Project 9/app/src/main/AndroidManifest.xml:2:1-35:12
 MERGED from [com.android.support:design:27.1.1] /Users/SSJdini/.gradle/caches/transforms-1/files-1.1/design-27.1.1.aar/7425acb031dc5d8f2055a9019b18b859/AndroidManifest.xml:17:1-22:12
 MERGED from [com.android.support:appcompat-v7:27.1.1] /Users/SSJdini/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/715e9813740db218b9541127bc1e01bc/AndroidManifest.xml:17:1-22:12
 MERGED from [com.android.support.constraint:constraint-layout:1.1.0] /Users/SSJdini/.gradle/caches/transforms-1/files-1.1/constraint-layout-1.1.0.aar/c0b74bd94252781f58a353648c48c70f/AndroidManifest.xml:2:1-11:12
@@ -21,25 +21,25 @@ MERGED from [android.arch.lifecycle:livedata-core:1.1.0] /Users/SSJdini/.gradle/
 MERGED from [android.arch.lifecycle:viewmodel:1.1.0] /Users/SSJdini/.gradle/caches/transforms-1/files-1.1/viewmodel-1.1.0.aar/9655371b642f20e61f11735f425e330b/AndroidManifest.xml:17:1-22:12
 MERGED from [android.arch.lifecycle:runtime:1.1.0] /Users/SSJdini/.gradle/caches/transforms-1/files-1.1/runtime-1.1.0.aar/e8955382ebc44fa59bbe18733bb2dfa1/AndroidManifest.xml:17:1-22:12
 MERGED from [android.arch.core:runtime:1.1.0] /Users/SSJdini/.gradle/caches/transforms-1/files-1.1/runtime-1.1.0.aar/012e6a4ffd9b519bb05458403b97650e/AndroidManifest.xml:17:1-22:12
-INJECTED from /Users/SSJdini/AndroidStudioProjects/Project 9/app/src/main/AndroidManifest.xml:2:1-30:12
-INJECTED from /Users/SSJdini/AndroidStudioProjects/Project 9/app/src/main/AndroidManifest.xml:2:1-30:12
-INJECTED from /Users/SSJdini/AndroidStudioProjects/Project 9/app/src/main/AndroidManifest.xml:2:1-30:12
+INJECTED from /Users/SSJdini/AndroidStudioProjects/Project 9/app/src/main/AndroidManifest.xml:2:1-35:12
+INJECTED from /Users/SSJdini/AndroidStudioProjects/Project 9/app/src/main/AndroidManifest.xml:2:1-35:12
+INJECTED from /Users/SSJdini/AndroidStudioProjects/Project 9/app/src/main/AndroidManifest.xml:2:1-35:12
 	package
 		ADDED from /Users/SSJdini/AndroidStudioProjects/Project 9/app/src/main/AndroidManifest.xml:3:5-43
 		INJECTED from /Users/SSJdini/AndroidStudioProjects/Project 9/app/src/main/AndroidManifest.xml
 		INJECTED from /Users/SSJdini/AndroidStudioProjects/Project 9/app/src/main/AndroidManifest.xml
 	android:versionName
 		INJECTED from /Users/SSJdini/AndroidStudioProjects/Project 9/app/src/main/AndroidManifest.xml
-		ADDED from /Users/SSJdini/AndroidStudioProjects/Project 9/app/src/main/AndroidManifest.xml:2:1-30:12
+		ADDED from /Users/SSJdini/AndroidStudioProjects/Project 9/app/src/main/AndroidManifest.xml:2:1-35:12
 		INJECTED from /Users/SSJdini/AndroidStudioProjects/Project 9/app/src/main/AndroidManifest.xml
 	android:versionCode
 		INJECTED from /Users/SSJdini/AndroidStudioProjects/Project 9/app/src/main/AndroidManifest.xml
-		ADDED from /Users/SSJdini/AndroidStudioProjects/Project 9/app/src/main/AndroidManifest.xml:2:1-30:12
+		ADDED from /Users/SSJdini/AndroidStudioProjects/Project 9/app/src/main/AndroidManifest.xml:2:1-35:12
 		INJECTED from /Users/SSJdini/AndroidStudioProjects/Project 9/app/src/main/AndroidManifest.xml
 	xmlns:android
 		ADDED from /Users/SSJdini/AndroidStudioProjects/Project 9/app/src/main/AndroidManifest.xml:2:11-69
 application
-ADDED from /Users/SSJdini/AndroidStudioProjects/Project 9/app/src/main/AndroidManifest.xml:5:5-28:19
+ADDED from /Users/SSJdini/AndroidStudioProjects/Project 9/app/src/main/AndroidManifest.xml:5:5-33:19
 MERGED from [com.android.support.constraint:constraint-layout:1.1.0] /Users/SSJdini/.gradle/caches/transforms-1/files-1.1/constraint-layout-1.1.0.aar/c0b74bd94252781f58a353648c48c70f/AndroidManifest.xml:9:5-20
 MERGED from [com.android.support.constraint:constraint-layout:1.1.0] /Users/SSJdini/.gradle/caches/transforms-1/files-1.1/constraint-layout-1.1.0.aar/c0b74bd94252781f58a353648c48c70f/AndroidManifest.xml:9:5-20
 	android:supportsRtl
@@ -80,6 +80,18 @@ ADDED from /Users/SSJdini/AndroidStudioProjects/Project 9/app/src/main/AndroidMa
 		ADDED from /Users/SSJdini/AndroidStudioProjects/Project 9/app/src/main/AndroidManifest.xml:26:13-37
 	android:name
 		ADDED from /Users/SSJdini/AndroidStudioProjects/Project 9/app/src/main/AndroidManifest.xml:24:13-51
+activity#com.example.android.project9.EditActivity
+ADDED from /Users/SSJdini/AndroidStudioProjects/Project 9/app/src/main/AndroidManifest.xml:28:9-31:59
+	android:label
+		ADDED from /Users/SSJdini/AndroidStudioProjects/Project 9/app/src/main/AndroidManifest.xml:30:13-56
+	android:theme
+		ADDED from /Users/SSJdini/AndroidStudioProjects/Project 9/app/src/main/AndroidManifest.xml:31:13-56
+	android:name
+		ADDED from /Users/SSJdini/AndroidStudioProjects/Project 9/app/src/main/AndroidManifest.xml:29:13-41
+activity#com.example.android.project9.SummaryActivity
+ADDED from /Users/SSJdini/AndroidStudioProjects/Project 9/app/src/main/AndroidManifest.xml:32:9-62
+	android:name
+		ADDED from /Users/SSJdini/AndroidStudioProjects/Project 9/app/src/main/AndroidManifest.xml:32:19-50
 uses-sdk
 INJECTED from /Users/SSJdini/AndroidStudioProjects/Project 9/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from /Users/SSJdini/AndroidStudioProjects/Project 9/app/src/main/AndroidManifest.xml

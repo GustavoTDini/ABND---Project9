@@ -57,8 +57,9 @@ public class InventoryContract {
         public final static String COLUMN_PRODUCT_NAME ="name";
 
         /**
-         * Código do Produto
-         * <p>
+         * Código do Produto para fins de cadastro independente do Table Id, como
+         * por exemplo em um código de barras
+         *
          * Type: INTEGER
          */
         public final static String COLUMN_PRODUCT_CODE = "code";

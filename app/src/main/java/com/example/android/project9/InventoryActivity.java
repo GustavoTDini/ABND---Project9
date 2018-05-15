@@ -1,10 +1,13 @@
 package com.example.android.project9;
 
 import android.app.LoaderManager;
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.CursorLoader;
+import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -12,6 +15,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.android.project9.Data.InventoryContract.InventoryEntry;
@@ -39,6 +43,26 @@ public class InventoryActivity extends AppCompatActivity implements LoaderManage
         mCursorAdapter = new InventoryCursorAdapter(this, null);
         InventoryListView.setAdapter( mCursorAdapter );
 
+        //Configura o ClickListener para abrir o EditMode do Produto
+        InventoryListView.setOnItemClickListener( new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView <?> parent, View view, int position, long id) {
+
+                Log.v( "Click", "onItemClick: " + id );
+                // abre o novo intent
+                Intent intent = new Intent( InventoryActivity.this, EditActivity.class );
+
+                // Carrega o Uri que contem o item clicado e o carrega como data para o intent
+                Uri currentPetUri = ContentUris.withAppendedId( InventoryEntry.CONTENT_URI, id );
+                intent.setData( currentPetUri );
+
+                Log.v( "Click", "onItemClick: " + id );
+
+                // Abre a nova Activity
+                startActivity( intent );
+            }
+        } );
+
         // Kick off the loader
         getLoaderManager().initLoader(INVENTORY_LOADER, null, this);
 
@@ -63,6 +87,12 @@ public class InventoryActivity extends AppCompatActivity implements LoaderManage
                 deleteInventory();
                 break;
             case (R.id.inventory_summary):
+                Intent summaryIntent = new Intent( InventoryActivity.this, SummaryActivity.class );
+                startActivity( summaryIntent );
+                break;
+            case (R.id.add_new_product):
+                Intent EditIntent = new Intent( InventoryActivity.this, EditActivity.class );
+                startActivity( EditIntent );
                 break;
         }
 

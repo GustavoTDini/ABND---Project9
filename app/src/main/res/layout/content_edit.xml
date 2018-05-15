@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.example.android.project9.EditActivity"
+    tools:showIn="@layout/activity_edit">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="18dp"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <TextView
+            style="@style/SummaryLabels"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Nome do Produto" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/colorAccent" />
+
+        <EditText
+            android:id="@+id/edit_name"
+            style="@style/SummaryValues"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="100000"
+            android:textAlignment="textEnd" />
+
+        <TextView
+            style="@style/SummaryLabels"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Código do Produto" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/colorAccent" />
+
+        <EditText
+            android:id="@+id/edit_code"
+            style="@style/SummaryValues"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="100000"
+            android:textAlignment="textEnd" />
+
+        <TextView
+            style="@style/SummaryLabels"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Valor de Compra" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/colorAccent" />
+
+        <EditText
+            android:id="@+id/edit_buy"
+            style="@style/SummaryValues"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="100000"
+            android:textAlignment="textEnd" />
+
+        <TextView
+            style="@style/SummaryLabels"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Valor de Venda" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/colorAccent" />
+
+        <EditText
+            android:id="@+id/edit_sell"
+            style="@style/SummaryValues"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="100000"
+            android:textAlignment="textEnd" />
+
+        <TextView
+            style="@style/SummaryLabels"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Total em Estoque" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/colorAccent" />
+
+        <EditText
+            android:id="@+id/edit_stock"
+            style="@style/SummaryValues"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="100000"
+            android:textAlignment="textEnd" />
+
+        <TextView
+            style="@style/SummaryLabels"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Imagem" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/colorAccent" />
+
+        <ImageView
+            android:id="@+id/edit_Image"
+            style="@style/SummaryValues"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:textAlignment="textEnd" />
+
+        <Button
+            android:id="@+id/edit_image_button"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/round_button"
+            android:padding="6dp"
+            android:text="Selecionar Imagem"
+            android:textAlignment="textEnd"
+            android:textColor="@android:color/white" />
+
+        <Button
+            android:id="@+id/delete_button"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="18dp"
+            android:background="@drawable/delete_round_button"
+            android:padding="6dp"
+            android:text="Deletar"
+            android:textAlignment="center"
+            android:textColor="@android:color/white" />
+
+    </LinearLayout>
+
+</ScrollView>

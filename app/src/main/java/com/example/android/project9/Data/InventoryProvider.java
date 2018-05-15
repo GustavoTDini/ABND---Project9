@@ -152,56 +152,85 @@ public class InventoryProvider extends ContentProvider {
 
     /**
      * Método de Inserção do novo produto ao Inventário, vetifica se
-     * Retorna e nova Uri
+     * Retorna e nova Uri, se o produto já existir atualiza com o incremento do estoque
      */
     private Uri insertDb(Uri uri, ContentValues values) {
 
-        // Verifica se o nome não é Null
+        //Recebe os respectivos valores e os armazena
         String name = values.getAsString(InventoryEntry.COLUMN_PRODUCT_NAME);
-        if (name == null) {
-            throw new IllegalArgumentException("Product requires a name");
-        }
+        String code = values.getAsString( InventoryEntry.COLUMN_PRODUCT_CODE );
+        Long sellValue = values.getAsLong( InventoryEntry.COLUMN_PRODUCT_SELL_VALUE );
+        Long buyValue = values.getAsLong( InventoryEntry.COLUMN_PRODUCT_BUY_VALUE );
+        int stockQuantity = values.getAsInteger( InventoryEntry.COLUMN_PRODUCT_STOCK );
 
-        // Verifica se o Codigo não é Null
-        String code = values.getAsString(InventoryEntry.COLUMN_PRODUCT_CODE);
-        if (code == null) {
-            throw new IllegalArgumentException("Product requires a code");
-        }
-
-        // Verifica se o Valor de venda é maior que 0
-        Long sellValue = values.getAsLong(InventoryEntry.COLUMN_PRODUCT_SELL_VALUE);
-        if ( !(sellValue >0) ) {
-            throw new IllegalArgumentException("Sell Value must be Greater than 0");
-        }
-
-        // Verifica se o Valor de compra é maior que 0
-        Long buyValue = values.getAsLong(InventoryEntry.COLUMN_PRODUCT_BUY_VALUE);
-        if ( !(buyValue >0) ) {
-            throw new IllegalArgumentException("Buy Value must be Greater than 0");
-        }
-
-        // Verifica se quantidade em estoque é maior ou igual a 0
-        int stockQuantity = values.getAsInteger(InventoryEntry.COLUMN_PRODUCT_STOCK);
-        if ( !(stockQuantity >= 0) ) {
-            throw new IllegalArgumentException("Stock quantity must be greater or equal 0");
-        }
-
-        // Get writeable database
+        // cria o  database de escrita
         SQLiteDatabase database = mDbHelper.getWritableDatabase();
 
-        // Se passar em todas as verificações insere un novo item no banco de dados
-        long id = database.insert(InventoryEntry.TABLE_NAME, null, values);
+        // Verifica se o nome e o codigo já existem na tabela, caso já exista incrementa o estoque
+        if (checkIfContains( name, code )) {
+//            Uri thisProduct = ContentUris.withAppendedId(.CONTENT_URI, id);
+//            stockQuantity += 1;
+            return uri;
 
-        // se o valor retornado for igual a -1, então a verificação falhou e irá retornar null e avisar no Log
-        if (id == -1) {
-            Log.e(LOG_TAG, "Failed to insert row for " + uri);
-            return null;
+
+        } else {
+            // Verifica se o nome não é Null
+            if (name == null) {
+                throw new IllegalArgumentException( "Product requires a name" );
+            }
+
+            // Verifica se o Codigo não é Null
+            if (code == null) {
+                throw new IllegalArgumentException( "Product requires a code" );
+            }
+
+            // Verifica se o Valor de venda é maior que 0
+            if (!(sellValue > 0)) {
+                throw new IllegalArgumentException( "Sell Value must be Greater than 0" );
+            }
+
+            // Verifica se o Valor de compra é maior que 0
+            if (!(buyValue > 0)) {
+                throw new IllegalArgumentException( "Buy Value must be Greater than 0" );
+            }
+
+            // Verifica se quantidade em estoque é maior ou igual a 0
+            if (!(stockQuantity >= 0)) {
+                throw new IllegalArgumentException( "Stock quantity must be greater or equal 0" );
+            }
+
+            // Se passar em todas as verificações insere un novo item no banco de dados
+            long id = database.insert( InventoryEntry.TABLE_NAME, null, values );
+
+            // se o valor retornado for igual a -1, então a verificação falhou e irá retornar null e avisar no Log
+            if (id == -1) {
+                Log.e( LOG_TAG, "Failed to insert row for " + uri );
+                return null;
+            }
+
+            // Notifica a mudança do Uri aos Listeners
+            getContext().getContentResolver().notifyChange( uri, null );
+
+            return ContentUris.withAppendedId( uri, id );
         }
+    }
 
-        // Notifica a mudança do Uri aos Listeners
-        getContext().getContentResolver().notifyChange(uri, null);
 
-        return ContentUris.withAppendedId(uri, id);
+    /**
+     * Método que verifica se j[a existe o produto na database
+     */
+    public boolean checkIfContains(String name, String code) {
+
+        SQLiteDatabase database = mDbHelper.getReadableDatabase();
+        String namequery = "SELECT * FROM " + InventoryEntry.TABLE_NAME + " WHERE " + InventoryEntry.COLUMN_PRODUCT_NAME + " = ? AND " + InventoryEntry.COLUMN_PRODUCT_CODE + " = ?";
+        Cursor cursor = database.rawQuery( namequery, new String[]{name, code} );
+        if (cursor.getCount() == 0) {
+            cursor.close();
+            return false;
+        } else {
+            cursor.close();
+            return true;
+        }
     }
 
     @Override
@@ -279,4 +308,9 @@ public class InventoryProvider extends ContentProvider {
 
         return rowsUpdated;
     }
+
+    public int updateStock(ContentValues currentValue, int incrementValue) {
+        return 0;
+    }
+
 }

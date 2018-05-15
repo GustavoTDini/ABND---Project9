@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.android.project9.SummaryActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/sumary_title"
+            style="@style/SummaryLabels"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="50dp"
+            android:text="Sumário"
+            android:textSize="32sp" />
+
+        <LinearLayout
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/sumary_title"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="18dp"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/SummaryLabels"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="Custo Total" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@color/colorAccent" />
+
+            <TextView
+                android:id="@+id/summary_cost_value"
+                style="@style/SummaryValues"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="100000"
+                android:textAlignment="textEnd" />
+
+            <TextView
+                style="@style/SummaryLabels"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="Valor Total de Venda" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@color/colorAccent" />
+
+            <TextView
+                android:id="@+id/summary_sell_value"
+                style="@style/SummaryValues"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="100000"
+                android:textAlignment="textEnd" />
+
+            <TextView
+                style="@style/SummaryLabels"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="Tipos de Produtos" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@color/colorAccent" />
+
+            <TextView
+                android:id="@+id/summary_products_value"
+                style="@style/SummaryValues"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="100000"
+                android:textAlignment="textEnd" />
+
+            <TextView
+                style="@style/SummaryLabels"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="Total de unidades" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@color/colorAccent" />
+
+            <TextView
+                android:id="@+id/summary_total_products_value"
+                style="@style/SummaryValues"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="100000"
+                android:textAlignment="textEnd" />
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
+</ScrollView>
+

@@ -25,6 +25,11 @@
             android:authorities="com.example.android.project9"
             android:exported="false" />
 
+        <activity
+            android:name=".EditActivity"
+            android:label="@string/title_activity_edit"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".SummaryActivity"></activity>
     </application>
 
 </manifest>
