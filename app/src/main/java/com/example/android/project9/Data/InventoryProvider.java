@@ -42,7 +42,7 @@ public class InventoryProvider extends ContentProvider {
     }
 
     /** Database helper object */
-    private static InventoryDbHelper mDbHelper;
+    private InventoryDbHelper mDbHelper;
 
     @Override
     public boolean onCreate() {
@@ -170,13 +170,15 @@ public class InventoryProvider extends ContentProvider {
 
         // Verifica se o nome e o codigo já existem na tabela, caso já exista incrementa o estoque
         if (checkIfContains( readDatabase, name, code )) {
-//            String nameQuery = "SELECT * FROM " + InventoryEntry.TABLE_NAME + " WHERE " + InventoryEntry.COLUMN_PRODUCT_NAME + " = ? AND " + InventoryEntry.COLUMN_PRODUCT_CODE + " = ?";
-//            Cursor cursor = readDatabase.rawQuery( nameQuery, new String[]{name, code} );
-//            int stockColumn = cursor.getColumnIndex(InventoryEntry.COLUMN_PRODUCT_STOCK);
-//            Log.v(LOG_TAG, "insertDb():" + stockColumn);
-//            updateStock(name, stockQuantity, stockColumn);
-//            getContext().getContentResolver().notifyChange(uri, null);
-//            cursor.close();
+            String nameQuery = "SELECT * FROM " + InventoryEntry.TABLE_NAME + " WHERE " + InventoryEntry.COLUMN_PRODUCT_NAME + " = ? AND " + InventoryEntry.COLUMN_PRODUCT_CODE + " = ?";
+            Cursor cursor = readDatabase.rawQuery( nameQuery, new String[]{name, code} );
+            int stockColumn = cursor.getColumnIndex(InventoryEntry.COLUMN_PRODUCT_STOCK);
+            int stockValue = cursor.getInt(stockColumn);
+            stockValue = stockValue + stockQuantity;
+            ContentValues updatedValue = new ContentValues();
+            updatedValue.put(InventoryEntry.COLUMN_PRODUCT_STOCK, stockValue);
+            update(uri,updatedValue,null,null);
+            cursor.close();
             return uri;
         } else {
 
@@ -311,25 +313,6 @@ public class InventoryProvider extends ContentProvider {
         }
 
         return rowsUpdated;
-    }
-
-    public static void updateStock(String id, int currentStock, int incrementValue) {
-        Log.v(LOG_TAG, "name : " + id);
-
-        int updatedStock = currentStock + incrementValue;
-
-        Log.v(LOG_TAG, "updatedstock : " + updatedStock);
-
-        ContentValues values = new ContentValues();
-
-        values.put(InventoryEntry.COLUMN_PRODUCT_STOCK, updatedStock);
-
-        final String selection = InventoryEntry._ID + " =? AND " + InventoryEntry.COLUMN_PRODUCT_STOCK + " =?";
-        final String[] selectionArgs = {id, String.valueOf(currentStock) };
-
-        SQLiteDatabase database = mDbHelper.getWritableDatabase();
-        database.update(ContentUris.withAppendedId( uri, id ), values, selection, selectionArgs);
-
     }
 
 }

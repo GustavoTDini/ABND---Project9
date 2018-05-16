@@ -1,6 +1,7 @@
 package com.example.android.project9;
 
 import android.content.ContentProvider;
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.view.LayoutInflater;
@@ -74,7 +75,7 @@ public class InventoryCursorAdapter extends CursorAdapter {
                     toastMessage = "Sem mais " + productName + " para Vender";
                     Toast.makeText(context, toastMessage, Toast.LENGTH_SHORT).show();
                 } else{
-                    InventoryProvider.updateStock(productName, stockValue, -1);
+                    int sellStock = stockValue -1;
                     toastMessage = "Mais um " + productName + " Vendido";
                     Toast.makeText(context, toastMessage, Toast.LENGTH_SHORT).show();
                 }
