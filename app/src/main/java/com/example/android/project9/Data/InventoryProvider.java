@@ -315,4 +315,17 @@ public class InventoryProvider extends ContentProvider {
         return rowsUpdated;
     }
 
+    public void changeStock(int columnId, int quantity, int changeQuantity){
+
+        quantity = quantity + changeQuantity;
+
+        ContentValues values = new ContentValues();
+        values.put(InventoryEntry.COLUMN_PRODUCT_STOCK, quantity);
+
+        Uri updateUri = ContentUris.withAppendedId(InventoryEntry.CONTENT_URI, columnId);
+
+        int rowsAffected = getContext().getContentResolver().update(updateUri, values,null, null);
+
+    }
+
 }
