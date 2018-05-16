@@ -1,20 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "/Users/SSJdini/AndroidStudioProjects/Project 9/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-hy/values-hy.xml",
+            "outputFile": "/Users/ssjdini/AndroidStudioProjects/Project 9/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-hy/values-hy.xml",
             "map": [
                 {
-                    "source": "/Users/SSJdini/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/715e9813740db218b9541127bc1e01bc/res/values-hy/values-hy.xml",
-                    "from": {
-                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "105,208,309,419,508,614,729,811,892,977,1084,1191,1290,1400,1507,1607,1764,1863",
-                        "endColumns": "102,100,109,88,105,114,81,80,84,106,106,98,109,106,99,156,98,81",
-                        "endOffsets": "203,304,414,503,609,724,806,887,972,1079,1186,1285,1395,1502,1602,1759,1858,1940"
-                    }
-                },
-                {
-                    "source": "/Users/SSJdini/.gradle/caches/transforms-1/files-1.1/support-compat-27.1.1.aar/e530ea97c7770266b01f0deea901a6fd/res/values-hy/values-hy.xml",
+                    "source": "/Users/ssjdini/.gradle/caches/transforms-1/files-1.1/support-compat-27.1.1.aar/8046cc7887ee8773cdcd1ce909aa80bb/res/values-hy/values-hy.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
@@ -28,6 +18,16 @@
                         "startOffsets": "1945",
                         "endColumns": "100",
                         "endOffsets": "2041"
+                    }
+                },
+                {
+                    "source": "/Users/ssjdini/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/b174409b2c9153449a55e110618d58fb/res/values-hy/values-hy.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "105,208,309,419,508,614,729,811,892,977,1084,1191,1290,1400,1507,1607,1764,1863",
+                        "endColumns": "102,100,109,88,105,114,81,80,84,106,106,98,109,106,99,156,98,81",
+                        "endOffsets": "203,304,414,503,609,724,806,887,972,1079,1186,1285,1395,1502,1602,1759,1858,1940"
                     }
                 }
             ]
