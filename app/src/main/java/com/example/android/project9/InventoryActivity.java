@@ -33,35 +33,32 @@ public class InventoryActivity extends AppCompatActivity implements LoaderManage
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        ListView InventoryListView = findViewById( R.id.inventory_list_view );
+        ListView inventoryListView  = findViewById( R.id.inventory_list_view );
 
         // Configura o empty list View
         View emptyView = findViewById(R.id.empty_view);
-        InventoryListView.setEmptyView( emptyView );
+        inventoryListView.setEmptyView( emptyView );
 
         // Configura o Adapter do DB
         mCursorAdapter = new InventoryCursorAdapter(this, null);
-        InventoryListView.setAdapter( mCursorAdapter );
+        inventoryListView.setAdapter( mCursorAdapter );
 
         //Configura o ClickListener para abrir o EditMode do Produto
-        InventoryListView.setOnItemClickListener( new AdapterView.OnItemClickListener() {
+        inventoryListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView <?> parent, View view, int position, long id) {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                Log.v( "Click", "onItemClick: " + id );
                 // abre o novo intent
-                Intent intent = new Intent( InventoryActivity.this, EditActivity.class );
+                Intent EditIntent = new Intent( InventoryActivity.this, EditActivity.class );
 
                 // Carrega o Uri que contem o item clicado e o carrega como data para o intent
-                Uri currentPetUri = ContentUris.withAppendedId( InventoryEntry.CONTENT_URI, id );
-                intent.setData( currentPetUri );
-
-                Log.v( "Click", "onItemClick: " + id );
+                Uri productUri = ContentUris.withAppendedId( InventoryEntry.CONTENT_URI, id );
+                EditIntent.setData( productUri );
 
                 // Abre a nova Activity
-                startActivity( intent );
+                startActivity( EditIntent );
             }
-        } );
+        });
 
         // Kick off the loader
         getLoaderManager().initLoader(INVENTORY_LOADER, null, this);
@@ -127,6 +124,7 @@ public class InventoryActivity extends AppCompatActivity implements LoaderManage
         values.put( InventoryEntry.COLUMN_PRODUCT_STOCK, stock );
 
         getContentResolver().insert( InventoryEntry.CONTENT_URI, values );
+        Log.v("InventoryTAG", "insertItem: " + values);
     }
 
     /**

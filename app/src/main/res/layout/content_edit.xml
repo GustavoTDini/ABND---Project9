@@ -15,24 +15,33 @@
         android:orientation="vertical"
         android:padding="20dp">
 
+        <!-- View "Dummy" para Prevenir o teclado de abrir junto com a atividade -->
+        <LinearLayout
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:layout_width="0px"
+            android:layout_height="0px"/>
+
         <TextView
             style="@style/SummaryLabels"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:text="Nome do Produto" />
+            android:text="@string/edit_product_name" />
 
         <ImageView
+            android:contentDescription="@string/separation_bar"
             android:layout_width="match_parent"
             android:layout_height="2dp"
             android:background="@color/colorAccent" />
 
         <EditText
+            android:inputType="text"
             android:id="@+id/edit_name"
             style="@style/SummaryValues"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="100000"
+            android:hint="@string/edit_product_name"
             android:textAlignment="textEnd" />
 
         <TextView
@@ -40,19 +49,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:text="Código do Produto" />
+            android:text="@string/edit_product_code" />
 
         <ImageView
+            android:contentDescription="@string/separation_bar"
             android:layout_width="match_parent"
             android:layout_height="2dp"
             android:background="@color/colorAccent" />
 
         <EditText
+            android:inputType="text"
             android:id="@+id/edit_code"
             style="@style/SummaryValues"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="100000"
+            android:hint="@string/edit_product_code"
             android:textAlignment="textEnd" />
 
         <TextView
@@ -60,9 +71,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:text="Valor de Compra" />
+            android:text="@string/edit_buy_value" />
 
         <ImageView
+            android:contentDescription="@string/separation_bar"
             android:layout_width="match_parent"
             android:layout_height="2dp"
             android:background="@color/colorAccent" />
@@ -72,27 +84,30 @@
             style="@style/SummaryValues"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="100000"
-            android:textAlignment="textEnd" />
+            android:hint="@string/money_value_hints"
+            android:textAlignment="textEnd"
+            android:inputType="numberDecimal"/>
 
         <TextView
             style="@style/SummaryLabels"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:text="Valor de Venda" />
+            android:text="@string/edit_sell_value" />
 
         <ImageView
+            android:contentDescription="@string/separation_bar"
             android:layout_width="match_parent"
             android:layout_height="2dp"
             android:background="@color/colorAccent" />
 
         <EditText
+            android:inputType="numberDecimal"
             android:id="@+id/edit_sell"
             style="@style/SummaryValues"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="100000"
+            android:hint="@string/money_value_hints"
             android:textAlignment="textEnd" />
 
         <TextView
@@ -100,19 +115,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:text="Total em Estoque" />
+            android:text="@string/edit_stock_total" />
 
         <ImageView
+            android:contentDescription="@string/separation_bar"
             android:layout_width="match_parent"
             android:layout_height="2dp"
             android:background="@color/colorAccent" />
 
         <EditText
+            android:inputType="number"
             android:id="@+id/edit_stock"
             style="@style/SummaryValues"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="100000"
+            android:hint="@string/edit_stock_hint"
             android:textAlignment="textEnd" />
 
         <TextView
@@ -120,14 +137,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:text="Imagem" />
+            android:text="@string/edit_image" />
 
         <ImageView
+            android:contentDescription="@string/separation_bar"
             android:layout_width="match_parent"
             android:layout_height="2dp"
             android:background="@color/colorAccent" />
 
         <ImageView
+            android:contentDescription="@string/edit_image_view"
             android:id="@+id/edit_Image"
             style="@style/SummaryValues"
             android:layout_width="match_parent"
@@ -141,20 +160,29 @@
             android:layout_marginTop="4dp"
             android:background="@drawable/round_button"
             android:padding="6dp"
-            android:text="Selecionar Imagem"
+            android:text="@string/edit_select_image_button"
             android:textAlignment="textEnd"
             android:textColor="@android:color/white" />
 
         <Button
+            android:visibility="gone"
             android:id="@+id/delete_button"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginTop="18dp"
             android:background="@drawable/delete_round_button"
             android:padding="6dp"
-            android:text="Deletar"
+            android:text="@string/edit_delete_button"
             android:textAlignment="center"
             android:textColor="@android:color/white" />
+
+        <!-- View "Dummy" para fazer as vezes de uma margin
+        devido a visibilidade ou não do deleteButton -->
+        <ImageView
+            android:contentDescription="@string/edit_margin"
+            android:layout_width="wrap_content"
+            android:layout_height="80dp"
+            android:visibility="invisible"/>
 
     </LinearLayout>
 

@@ -42,7 +42,7 @@ public class InventoryProvider extends ContentProvider {
     }
 
     /** Database helper object */
-    private InventoryDbHelper mDbHelper;
+    private static InventoryDbHelper mDbHelper;
 
     @Override
     public boolean onCreate() {
@@ -65,7 +65,6 @@ public class InventoryProvider extends ContentProvider {
         int match = sUriMatcher.match(uri);
         switch (match) {
             case INVENTORY:
-
                 //Retorna o Cursor da tabela inteira
                 cursor = database.query(InventoryEntry.TABLE_NAME, projection, selection, selectionArgs,
                         null, null, sortOrder);
@@ -82,7 +81,7 @@ public class InventoryProvider extends ContentProvider {
                 throw new IllegalArgumentException("Cannot query unknown URI " + uri);
         }
 
-        // define o set notificationURI deste cursor, para identificarmos a troca de dados detas URI
+        // define o set notificationURI deste cursor, para identificarmos a troca de dados desta URI
         cursor.setNotificationUri(getContext().getContentResolver(), uri);
 
         return cursor;
@@ -164,16 +163,23 @@ public class InventoryProvider extends ContentProvider {
         int stockQuantity = values.getAsInteger( InventoryEntry.COLUMN_PRODUCT_STOCK );
 
         // cria o  database de escrita
-        SQLiteDatabase database = mDbHelper.getWritableDatabase();
+        SQLiteDatabase writeDatabase = mDbHelper.getWritableDatabase();
+
+        // abre o database de leitura
+        SQLiteDatabase readDatabase = mDbHelper.getReadableDatabase();
 
         // Verifica se o nome e o codigo já existem na tabela, caso já exista incrementa o estoque
-        if (checkIfContains( name, code )) {
-//            Uri thisProduct = ContentUris.withAppendedId(.CONTENT_URI, id);
-//            stockQuantity += 1;
+        if (checkIfContains( readDatabase, name, code )) {
+//            String nameQuery = "SELECT * FROM " + InventoryEntry.TABLE_NAME + " WHERE " + InventoryEntry.COLUMN_PRODUCT_NAME + " = ? AND " + InventoryEntry.COLUMN_PRODUCT_CODE + " = ?";
+//            Cursor cursor = readDatabase.rawQuery( nameQuery, new String[]{name, code} );
+//            int stockColumn = cursor.getColumnIndex(InventoryEntry.COLUMN_PRODUCT_STOCK);
+//            Log.v(LOG_TAG, "insertDb():" + stockColumn);
+//            updateStock(name, stockQuantity, stockColumn);
+//            getContext().getContentResolver().notifyChange(uri, null);
+//            cursor.close();
             return uri;
-
-
         } else {
+
             // Verifica se o nome não é Null
             if (name == null) {
                 throw new IllegalArgumentException( "Product requires a name" );
@@ -200,7 +206,7 @@ public class InventoryProvider extends ContentProvider {
             }
 
             // Se passar em todas as verificações insere un novo item no banco de dados
-            long id = database.insert( InventoryEntry.TABLE_NAME, null, values );
+            long id = writeDatabase.insert( InventoryEntry.TABLE_NAME, null, values );
 
             // se o valor retornado for igual a -1, então a verificação falhou e irá retornar null e avisar no Log
             if (id == -1) {
@@ -219,11 +225,9 @@ public class InventoryProvider extends ContentProvider {
     /**
      * Método que verifica se j[a existe o produto na database
      */
-    public boolean checkIfContains(String name, String code) {
-
-        SQLiteDatabase database = mDbHelper.getReadableDatabase();
-        String namequery = "SELECT * FROM " + InventoryEntry.TABLE_NAME + " WHERE " + InventoryEntry.COLUMN_PRODUCT_NAME + " = ? AND " + InventoryEntry.COLUMN_PRODUCT_CODE + " = ?";
-        Cursor cursor = database.rawQuery( namequery, new String[]{name, code} );
+    public boolean checkIfContains(SQLiteDatabase readDatabase, String name, String code) {
+        String nameQuery = "SELECT * FROM " + InventoryEntry.TABLE_NAME + " WHERE " + InventoryEntry.COLUMN_PRODUCT_NAME + " = ? AND " + InventoryEntry.COLUMN_PRODUCT_CODE + " = ?";
+        Cursor cursor = readDatabase.rawQuery( nameQuery, new String[]{name, code} );
         if (cursor.getCount() == 0) {
             cursor.close();
             return false;
@@ -309,8 +313,23 @@ public class InventoryProvider extends ContentProvider {
         return rowsUpdated;
     }
 
-    public int updateStock(ContentValues currentValue, int incrementValue) {
-        return 0;
+    public static void updateStock(String id, int currentStock, int incrementValue) {
+        Log.v(LOG_TAG, "name : " + id);
+
+        int updatedStock = currentStock + incrementValue;
+
+        Log.v(LOG_TAG, "updatedstock : " + updatedStock);
+
+        ContentValues values = new ContentValues();
+
+        values.put(InventoryEntry.COLUMN_PRODUCT_STOCK, updatedStock);
+
+        final String selection = InventoryEntry._ID + " =? AND " + InventoryEntry.COLUMN_PRODUCT_STOCK + " =?";
+        final String[] selectionArgs = {id, String.valueOf(currentStock) };
+
+        SQLiteDatabase database = mDbHelper.getWritableDatabase();
+        database.update(ContentUris.withAppendedId( uri, id ), values, selection, selectionArgs);
+
     }
 
 }

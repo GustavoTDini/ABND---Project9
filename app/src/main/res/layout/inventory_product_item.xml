@@ -16,7 +16,7 @@
         android:layout_marginStart="4dp"
         android:layout_toEndOf="@+id/product_image"
         android:layout_toStartOf="@+id/stock_label"
-        android:text="PRODUTO" />
+        android:text="@string/list_product" />
 
     <TextView
         android:id="@+id/buy_label"
@@ -25,7 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/product_name"
         android:layout_centerVertical="true"
-        android:text="Compra" />
+        android:text="@string/list_buy" />
 
     <TextView
         android:id="@+id/buy_value"
@@ -34,8 +34,7 @@
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/sell_label"
         android:layout_alignBottom="@+id/sell_label"
-        android:layout_centerHorizontal="true"
-        android:text="R$XX" />
+        android:layout_centerHorizontal="true"/>
 
     <TextView
         android:id="@+id/sell_label"
@@ -44,7 +43,7 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/product_image"
         android:layout_alignStart="@+id/buy_label"
-        android:text="Venda" />
+        android:text="@string/list_sell" />
 
     <TextView
         android:id="@+id/sell_value"
@@ -53,8 +52,7 @@
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/buy_label"
         android:layout_alignBottom="@+id/buy_label"
-        android:layout_centerHorizontal="true"
-        android:text="R$XX" />
+        android:layout_centerHorizontal="true" />
 
     <ImageView
         android:id="@+id/product_image"
@@ -62,7 +60,7 @@
         android:layout_height="70dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:contentDescription="Procuct Image"
+        android:contentDescription="@string/list_product_image"
         android:src="@drawable/image_placeholder" />
 
     <TextView
@@ -72,7 +70,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignStart="@+id/sell_button"
-        android:text="Estoque" />
+        android:text="@string/list_stock" />
 
     <TextView
         android:id="@+id/stock_quantity"
@@ -80,8 +78,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/product_name"
-        android:layout_alignStart="@+id/sell_button"
-        android:text="Vários" />
+        android:layout_alignStart="@+id/sell_button" />
 
     <TextView
         android:id="@+id/code_value"
@@ -90,7 +87,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
-        android:text="123456"
+        android:maxLength="8"
         android:textSize="10sp" />
 
     <Button
@@ -100,13 +97,15 @@
         android:layout_alignBottom="@+id/code_value"
         android:layout_alignParentEnd="true"
         android:background="@drawable/round_button"
-        android:drawableLeft="@drawable/ic_attach_money"
+        android:drawableStart="@drawable/ic_attach_money"
         android:drawablePadding="8dp"
-        android:gravity="left|center_vertical"
+        android:gravity="start|center_vertical"
         android:paddingStart="8dp"
-        android:text="Vender +1"
+        android:paddingEnd="8dp"
+        android:text="@string/list_sell_button"
         android:textAllCaps="true"
-        android:textColor="@android:color/white" />
+        android:textColor="@android:color/white"
+        android:focusable="false"/>
 
 
 </RelativeLayout>
