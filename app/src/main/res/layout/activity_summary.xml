@@ -82,7 +82,7 @@
                 android:background="@color/colorAccent" />
 
             <TextView
-                android:id="@+id/summary_products_value"
+                android:id="@+id/summary_products_kinds"
                 style="@style/SummaryValues"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -102,11 +102,11 @@
                 android:background="@color/colorAccent" />
 
             <TextView
-                android:id="@+id/summary_total_products_value"
+                android:id="@+id/summary_total_items"
                 style="@style/SummaryValues"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAlignment="textEnd" />
+                android:textAlignment="textEnd"/>
 
         </LinearLayout>
 

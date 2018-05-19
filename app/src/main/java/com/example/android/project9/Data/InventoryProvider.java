@@ -3,6 +3,7 @@ package com.example.android.project9.Data;
 import android.content.ContentProvider;
 import android.content.ContentUris;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -168,18 +169,9 @@ public class InventoryProvider extends ContentProvider {
         // abre o database de leitura
         SQLiteDatabase readDatabase = mDbHelper.getReadableDatabase();
 
-        // Verifica se o nome e o codigo já existem na tabela, caso já exista incrementa o estoque
+        // Verifica se o nome e o codigo já existem na tabela, neste caso não é adicionado um novo produto
         if (checkIfContains( readDatabase, name, code )) {
-            String nameQuery = "SELECT * FROM " + InventoryEntry.TABLE_NAME + " WHERE " + InventoryEntry.COLUMN_PRODUCT_NAME + " = ? AND " + InventoryEntry.COLUMN_PRODUCT_CODE + " = ?";
-            Cursor cursor = readDatabase.rawQuery( nameQuery, new String[]{name, code} );
-            int stockColumn = cursor.getColumnIndex(InventoryEntry.COLUMN_PRODUCT_STOCK);
-            int stockValue = cursor.getInt(stockColumn);
-            stockValue = stockValue + stockQuantity;
-            ContentValues updatedValue = new ContentValues();
-            updatedValue.put(InventoryEntry.COLUMN_PRODUCT_STOCK, stockValue);
-            update(uri,updatedValue,null,null);
-            cursor.close();
-            return uri;
+            return null;
         } else {
 
             // Verifica se o nome não é Null
@@ -315,7 +307,7 @@ public class InventoryProvider extends ContentProvider {
         return rowsUpdated;
     }
 
-    public void changeStock(int columnId, int quantity, int changeQuantity){
+    static public Uri changeStock(Context context, int columnId, int quantity, int changeQuantity){
 
         quantity = quantity + changeQuantity;
 
@@ -324,8 +316,9 @@ public class InventoryProvider extends ContentProvider {
 
         Uri updateUri = ContentUris.withAppendedId(InventoryEntry.CONTENT_URI, columnId);
 
-        int rowsAffected = getContext().getContentResolver().update(updateUri, values,null, null);
+        int rowsAffected = context.getContentResolver().update(updateUri, values,null, null);
 
+        return updateUri;
     }
 
 }

@@ -58,7 +58,7 @@
             android:background="@color/colorAccent" />
 
         <EditText
-            android:inputType="text"
+            android:inputType="number"
             android:id="@+id/edit_code"
             style="@style/SummaryValues"
             android:layout_width="match_parent"

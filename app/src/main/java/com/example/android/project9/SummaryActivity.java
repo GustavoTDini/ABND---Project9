@@ -1,13 +1,83 @@
 package com.example.android.project9;
 
+import android.app.LoaderManager;
+import android.content.CursorLoader;
+import android.content.Loader;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.TextView;
 
-public class SummaryActivity extends AppCompatActivity {
+import com.example.android.project9.Data.InventoryContract.InventoryEntry;
+
+import java.text.NumberFormat;
+
+public class SummaryActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>{
+
+
+    private static final int INVENTORY_LOADER = 0;
+
+    public InventoryCursorAdapter mCursorAdapter;
+
+    private TextView totalProducts;
+    private TextView totalCost;
+    private TextView totalValue;
+    private TextView totalItems;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_summary );
+
+        totalProducts = findViewById(R.id.summary_products_kinds);
+        totalCost = findViewById(R.id.summary_cost_value);
+        totalValue = findViewById(R.id.summary_sell_value);
+        totalItems = findViewById(R.id.summary_total_items);
+
+        getLoaderManager().initLoader(INVENTORY_LOADER, null, this);
+    }
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        return new CursorLoader(this, InventoryEntry.CONTENT_URI, null, null, null, null);
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+
+        int sellColumnIndex = cursor.getColumnIndex(InventoryEntry.COLUMN_PRODUCT_SELL_VALUE);
+        double sellValue;
+
+        int buyColumnIndex = cursor.getColumnIndex(InventoryEntry.COLUMN_PRODUCT_BUY_VALUE);
+        double buyValue;
+
+        int stockColumnIndex = cursor.getColumnIndex(InventoryEntry.COLUMN_PRODUCT_STOCK);
+        int stockValue;
+
+        NumberFormat moneyFormat = NumberFormat.getCurrencyInstance();
+
+        int totalProductsValue = cursor.getCount();
+        double totalCostValue = 0;
+        double totalValueValue = 0;
+        int totalItemsValue = 0;
+
+
+        cursor.moveToFirst();
+        for (int itemsIndex = 0; itemsIndex <= totalProductsValue; itemsIndex ++ ){
+            stockValue = cursor.getInt(stockColumnIndex);
+            totalItemsValue += stockValue;
+        }
+
+
+        totalProducts.setText(String.valueOf(totalProductsValue));
+        totalCost.setText(moneyFormat.format(totalCostValue));
+        totalValue.setText(moneyFormat.format(totalValueValue));
+        totalItems.setText(String.valueOf(totalItemsValue));
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
     }
 }

@@ -4,21 +4,21 @@
     tools:context="com.example.android.project9.InventoryActivity">
     <item
         android:id="@+id/add_sample_inventory"
-        android:title="Add Sample Inventory"
+        android:title="@string/menu_dummy_inventory"
         app:showAsAction="never" />
 
     <item
         android:id="@+id/empty_inventory"
-        android:title="Empty this Inventory"
+        android:title="@string/menu_empty_inventory"
         app:showAsAction="never" />
 
     <item
         android:id="@+id/inventory_summary"
-        android:title="Inventory Summary"
+        android:title="@string/menu_summary"
         app:showAsAction="never" />
 
     <item
         android:id="@+id/add_new_product"
-        android:title="Add New Product"
+        android:title="@string/menu_add_product"
         app:showAsAction="never" />
 </menu>

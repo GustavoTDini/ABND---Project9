@@ -3,6 +3,7 @@ package com.example.android.project9;
 import android.content.ContentProvider;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,6 +45,9 @@ public class InventoryCursorAdapter extends CursorAdapter {
         NumberFormat moneyFormat = NumberFormat.getCurrencyInstance();
 
         // separa as colunas do cursor para cada atributo e lê cada atributo
+        int IdColumnIndex = cursor.getColumnIndex(InventoryEntry._ID);
+        final int columnId = cursor.getInt(IdColumnIndex);
+
         int nameColumnIndex = cursor.getColumnIndex(InventoryEntry.COLUMN_PRODUCT_NAME);
         final String productName = cursor.getString(nameColumnIndex);
 
@@ -70,13 +74,14 @@ public class InventoryCursorAdapter extends CursorAdapter {
         sellButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Resources res = context.getResources();
                 String toastMessage;
                 if (stockValue == 0 ) {
-                    toastMessage = "Sem mais " + productName + " para Vender";
+                    toastMessage = String.format(res.getString(R.string.no_more_products_toast), productName);
                     Toast.makeText(context, toastMessage, Toast.LENGTH_SHORT).show();
                 } else{
-                    int sellStock = stockValue -1;
-                    toastMessage = "Mais um " + productName + " Vendido";
+                    InventoryProvider.changeStock(context, columnId, stockValue, -1);
+                    toastMessage = String.format(res.getString(R.string.sold_one_more_toast), productName);
                     Toast.makeText(context, toastMessage, Toast.LENGTH_SHORT).show();
                 }
             }

@@ -28,4 +28,10 @@
     <string name="list_product_image">List Product Image</string>
     <string name="list_stock">Estoque</string>
     <string name="list_sell_button">Vender +1</string>
+    <string name="no_more_products_toast">Sem mais %1$s para Vender</string>
+    <string name="sold_one_more_toast">Mais um %1$s Vendido</string>
+    <string name="menu_dummy_inventory">Inventário de Exemplo</string>
+    <string name="menu_empty_inventory">Esvaziar Inventário</string>
+    <string name="menu_summary">Sumário</string>
+    <string name="menu_add_product">Novo Produto</string>
 </resources>
