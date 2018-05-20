@@ -12,48 +12,47 @@ import com.example.android.project9.Data.InventoryContract.InventoryEntry;
 
 import java.text.NumberFormat;
 
-public class SummaryActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>{
+public class SummaryActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks <Cursor> {
 
-
+    /**
+     * Identificador do Loader
+     */
     private static final int INVENTORY_LOADER = 0;
 
-    public InventoryCursorAdapter mCursorAdapter;
-
-    private TextView totalProducts;
-    private TextView totalCost;
-    private TextView totalValue;
-    private TextView totalItems;
-
-
+    private TextView mTotalProducts;
+    private TextView mTotalCost;
+    private TextView mTotalValue;
+    private TextView mTotalItems;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_summary );
+        getSupportActionBar().setDisplayHomeAsUpEnabled( true );
 
-        totalProducts = findViewById(R.id.summary_products_kinds);
-        totalCost = findViewById(R.id.summary_cost_value);
-        totalValue = findViewById(R.id.summary_sell_value);
-        totalItems = findViewById(R.id.summary_total_items);
+        mTotalProducts = findViewById( R.id.summary_products_kinds );
+        mTotalCost = findViewById( R.id.summary_cost_value );
+        mTotalValue = findViewById( R.id.summary_sell_value );
+        mTotalItems = findViewById( R.id.summary_total_items );
 
-        getLoaderManager().initLoader(INVENTORY_LOADER, null, this);
+        getLoaderManager().initLoader( INVENTORY_LOADER, null, this );
     }
 
     @Override
-    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        return new CursorLoader(this, InventoryEntry.CONTENT_URI, null, null, null, null);
+    public Loader <Cursor> onCreateLoader(int id, Bundle args) {
+        return new CursorLoader( this, InventoryEntry.CONTENT_URI, null, null, null, null );
     }
 
     @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+    public void onLoadFinished(Loader <Cursor> loader, Cursor cursor) {
 
-        int sellColumnIndex = cursor.getColumnIndex(InventoryEntry.COLUMN_PRODUCT_SELL_VALUE);
+        int sellColumnIndex = cursor.getColumnIndex( InventoryEntry.COLUMN_PRODUCT_SELL_VALUE );
         double sellValue;
 
-        int buyColumnIndex = cursor.getColumnIndex(InventoryEntry.COLUMN_PRODUCT_BUY_VALUE);
+        int buyColumnIndex = cursor.getColumnIndex( InventoryEntry.COLUMN_PRODUCT_BUY_VALUE );
         double buyValue;
 
-        int stockColumnIndex = cursor.getColumnIndex(InventoryEntry.COLUMN_PRODUCT_STOCK);
+        int stockColumnIndex = cursor.getColumnIndex( InventoryEntry.COLUMN_PRODUCT_STOCK );
         int stockValue;
 
         NumberFormat moneyFormat = NumberFormat.getCurrencyInstance();
@@ -65,19 +64,24 @@ public class SummaryActivity extends AppCompatActivity implements LoaderManager.
 
 
         cursor.moveToFirst();
-        for (int itemsIndex = 0; itemsIndex <= totalProductsValue; itemsIndex ++ ){
-            stockValue = cursor.getInt(stockColumnIndex);
-            totalItemsValue += stockValue;
+        for (int itemsIndex = 0; itemsIndex < totalProductsValue; itemsIndex++) {
+            stockValue = cursor.getInt( stockColumnIndex );
+            sellValue = cursor.getDouble( sellColumnIndex ) * stockValue;
+            buyValue = cursor.getDouble( buyColumnIndex ) * stockValue;
+            totalItemsValue = totalItemsValue + stockValue;
+            totalCostValue = totalCostValue + buyValue;
+            totalValueValue = totalValueValue + sellValue;
+            cursor.moveToNext();
         }
 
 
-        totalProducts.setText(String.valueOf(totalProductsValue));
-        totalCost.setText(moneyFormat.format(totalCostValue));
-        totalValue.setText(moneyFormat.format(totalValueValue));
-        totalItems.setText(String.valueOf(totalItemsValue));
+        mTotalProducts.setText( String.valueOf( totalProductsValue ) );
+        mTotalCost.setText( moneyFormat.format( totalCostValue ) );
+        mTotalValue.setText( moneyFormat.format( totalValueValue ) );
+        mTotalItems.setText( String.valueOf( totalItemsValue ) );
     }
 
     @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
+    public void onLoaderReset(Loader <Cursor> loader) {
     }
 }

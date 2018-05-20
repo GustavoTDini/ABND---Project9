@@ -20,7 +20,7 @@ import android.widget.ListView;
 
 import com.example.android.project9.Data.InventoryContract.InventoryEntry;
 
-public class InventoryActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
+public class InventoryActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks <Cursor> {
 
     private static final int INVENTORY_LOADER = 0;
 
@@ -28,47 +28,48 @@ public class InventoryActivity extends AppCompatActivity implements LoaderManage
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_inventory);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        super.onCreate( savedInstanceState );
+        setContentView( R.layout.activity_inventory );
+        Toolbar toolbar = findViewById( R.id.toolbar );
+        setSupportActionBar( toolbar );
 
-        ListView inventoryListView  = findViewById( R.id.inventory_list_view );
+        ListView inventoryListView = findViewById( R.id.inventory_list_view );
 
         // Configura o empty list View
-        View emptyView = findViewById(R.id.empty_view);
+        View emptyView = findViewById( R.id.empty_view );
         inventoryListView.setEmptyView( emptyView );
 
         // Configura o Adapter do DB
-        mCursorAdapter = new InventoryCursorAdapter(this, null);
+        mCursorAdapter = new InventoryCursorAdapter( this, null );
         inventoryListView.setAdapter( mCursorAdapter );
 
         //Configura o ClickListener para abrir o EditMode do Produto
-        inventoryListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        inventoryListView.setOnItemClickListener( new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+            public void onItemClick(AdapterView <?> parent, View view, int position, long id) {
+                Log.v( "InventoryActivity", "ID " + id );
                 // abre o novo intent
                 Intent EditIntent = new Intent( InventoryActivity.this, EditActivity.class );
 
                 // Carrega o Uri que contem o item clicado e o carrega como data para o intent
                 Uri productUri = ContentUris.withAppendedId( InventoryEntry.CONTENT_URI, id );
+                Log.v( "InventoryActivity", "setOnClikID " + productUri );
                 EditIntent.setData( productUri );
 
                 // Abre a nova Activity
                 startActivity( EditIntent );
             }
-        });
+        } );
 
         // Kick off the loader
-        getLoaderManager().initLoader(INVENTORY_LOADER, null, this);
+        getLoaderManager().initLoader( INVENTORY_LOADER, null, this );
 
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_inventory, menu);
+        getMenuInflater().inflate( R.menu.menu_inventory, menu );
         return true;
     }
 
@@ -76,7 +77,7 @@ public class InventoryActivity extends AppCompatActivity implements LoaderManage
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        switch (id){
+        switch (id) {
             case (R.id.add_sample_inventory):
                 insertSampleInventory();
                 break;
@@ -93,24 +94,24 @@ public class InventoryActivity extends AppCompatActivity implements LoaderManage
                 break;
         }
 
-        return super.onOptionsItemSelected(item);
+        return super.onOptionsItemSelected( item );
     }
 
     public void insertSampleInventory() {
 
-        insertItem( "Cupcake", 1,1.5, 1.5, 3 );
-        insertItem( "Donut", 2,1.6, 1.6, 4 );
-        insertItem( "Eclair", 3,2.1, 2, 5 );
-        insertItem( "Frozen Yogurt", 4,2.3, 2.2, 8 );
-        insertItem( "Gingerbread", 5,2.7, 2.3, 9 );
-        insertItem( "Honeycomb", 6,3.2, 3.0, 11 );
-        insertItem( "Ice Cream Sandwich", 7,4.4, 4.0, 14 );
-        insertItem( "Jelly Bean", 8,4.3, 4.1, 16 );
-        insertItem( "KitKat", 9,4.4, 4.4, 19 );
-        insertItem( "Lollipop", 10,5.1, 5.0, 21 );
-        insertItem( "Marshmallow", 11,6.0, 6.0, 23 );
-        insertItem( "Nougat", 12,7.1, 7, 24 );
-        insertItem( "Oreo", 13,8.1, 8.0, 26 );
+        insertItem( "Cupcake", 1, 1.5, 1.5, 3 );
+        insertItem( "Donut", 2, 1.6, 1.6, 4 );
+        insertItem( "Eclair", 3, 2.1, 2, 5 );
+        insertItem( "Frozen Yogurt", 4, 2.3, 2.2, 8 );
+        insertItem( "Gingerbread", 5, 2.7, 2.3, 9 );
+        insertItem( "Honeycomb", 6, 3.2, 3.0, 11 );
+        insertItem( "Ice Cream Sandwich", 7, 4.4, 4.0, 14 );
+        insertItem( "Jelly Bean", 8, 4.3, 4.1, 16 );
+        insertItem( "KitKat", 9, 4.4, 4.4, 19 );
+        insertItem( "Lollipop", 10, 5.1, 5.0, 21 );
+        insertItem( "Marshmallow", 11, 6.0, 6.0, 23 );
+        insertItem( "Nougat", 12, 7.1, 7, 24 );
+        insertItem( "Oreo", 13, 8.1, 8.0, 26 );
 
     }
 
@@ -124,7 +125,7 @@ public class InventoryActivity extends AppCompatActivity implements LoaderManage
         values.put( InventoryEntry.COLUMN_PRODUCT_STOCK, stock );
 
         getContentResolver().insert( InventoryEntry.CONTENT_URI, values );
-        Log.v("InventoryTAG", "insertItem: " + values);
+        Log.v( "InventoryTAG", "insertItem: " + values );
     }
 
     /**
@@ -136,17 +137,17 @@ public class InventoryActivity extends AppCompatActivity implements LoaderManage
     }
 
     @Override
-    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        return new CursorLoader(this, InventoryEntry.CONTENT_URI, null, null, null, null);
+    public Loader <Cursor> onCreateLoader(int id, Bundle args) {
+        return new CursorLoader( this, InventoryEntry.CONTENT_URI, null, null, null, null );
     }
 
     @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        mCursorAdapter.swapCursor(data);
+    public void onLoadFinished(Loader <Cursor> loader, Cursor data) {
+        mCursorAdapter.swapCursor( data );
     }
 
     @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
-        mCursorAdapter.swapCursor(null);
+    public void onLoaderReset(Loader <Cursor> loader) {
+        mCursorAdapter.swapCursor( null );
     }
 }

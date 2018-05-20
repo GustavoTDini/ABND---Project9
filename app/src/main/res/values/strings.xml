@@ -34,4 +34,20 @@
     <string name="menu_empty_inventory">Esvaziar Inventário</string>
     <string name="menu_summary">Sumário</string>
     <string name="menu_add_product">Novo Produto</string>
+    <string name="edit_new_product_title">Adicionar Produto</string>
+    <string name="edit_edit_product_title">Editar %1$s</string>
+    <string name="edit_dialog_delete_message">Confirma Exclusão de %1$s</string>
+    <string name="edit_dialog_delete">Apagar</string>
+    <string name="edit_dialog_cancel">Cancelar</string>
+    <string name="edit_delete_error_message">Não Foi Possível Excluir %1$s</string>
+    <string name="edit_delete_success_message">%1$s Excluido com Sucesso</string>
+    <string name="edit_changes_dialog_message">Descartar Mudanças e Sair do Editor</string>
+    <string name="edit_changes_dialog_discard">Descartar</string>
+    <string name="edit_changes_dialog_keep">Continuar a Edição</string>
+
+    <string name="edit_insert_error_message">Não Foi Possível adicionar %1$s</string>
+    <string name="edit_insert_success_message">%1$s Adicionado com Sucesso</string>
+
+    <string name="edit_update_error_message">Não Foi Possível Atualizar %1$s</string>
+    <string name="edit_update_success_message">%1$s Atualizado com Sucesso</string>
 </resources>

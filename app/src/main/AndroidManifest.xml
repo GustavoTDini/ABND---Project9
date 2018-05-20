@@ -27,9 +27,23 @@
 
         <activity
             android:name=".EditActivity"
-            android:label="@string/title_activity_edit"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".SummaryActivity"></activity>
+            android:parentActivityName=".InventoryActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".InventoryActivity" />
+        </activity>
+
+        <activity
+            android:name=".SummaryActivity"
+            android:parentActivityName=".InventoryActivity">
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".InventoryActivity" />
+        </activity>
+
     </application>
 
 </manifest>
