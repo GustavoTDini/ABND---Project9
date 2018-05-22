@@ -4,15 +4,25 @@ import android.content.ContentProvider;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.widget.ImageView;
 
 import com.example.android.project9.Data.InventoryContract.InventoryEntry;
+import com.example.android.project9.R;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 
 /**
  * {@link ContentProvider} para o DB Inventory.
@@ -54,10 +64,10 @@ public class InventoryProvider extends ContentProvider {
     private InventoryDbHelper mDbHelper;
 
     /**
-     * Método que verifica se j[a existe o produto na database
+     * Método que verifica se já existe o produto na database
      */
-    public static boolean checkIfContains(SQLiteDatabase readDatabase, String name, int code) {
-        String nameQuery = "SELECT * FROM " + InventoryEntry.TABLE_NAME + " WHERE " + InventoryEntry.COLUMN_PRODUCT_NAME + " = ? AND " + InventoryEntry.COLUMN_PRODUCT_CODE + " = ?";
+    public static Boolean checkIfContains(SQLiteDatabase readDatabase, String name, int code) {
+        String nameQuery = "SELECT * FROM " + InventoryEntry.TABLE_NAME + " WHERE " + InventoryEntry.COLUMN_PRODUCT_NAME + " = ? OR " + InventoryEntry.COLUMN_PRODUCT_CODE + " = ?";
         Cursor cursor = readDatabase.rawQuery( nameQuery, new String[]{name, String.valueOf( code )} );
         if (cursor.getCount() == 0) {
             cursor.close();
@@ -68,6 +78,10 @@ public class InventoryProvider extends ContentProvider {
         }
     }
 
+    /**
+     * Método para modificar a quantidade do estoque, usado no botão de venda, poderá ser utilizado em outras partes do app, pois
+     * poderá ser modificado a quantidade modificada
+     */
     static public Uri changeStock(Context context, int columnId, int quantity, int changeQuantity) {
 
         quantity = quantity + changeQuantity;
@@ -80,6 +94,47 @@ public class InventoryProvider extends ContentProvider {
         int rowsAffected = context.getContentResolver().update( updateUri, values, null, null );
 
         return updateUri;
+    }
+
+    /**
+     * Método para abrir um arquivo de imagem, retornando o Bitmap da mesma
+     */
+    static public Bitmap openImageFile(Context context, String imagePath) {
+        // caminho to /data/data/yourapp/app_data/imageDir
+        File directory = context.getDir("imageDir", Context.MODE_PRIVATE);
+        try {
+            // abre o arquivo de acordo com o caminho
+            File imageFile = new File(directory, imagePath);
+            // retorna a imagem em Bitmap a ser utilizada
+            return  BitmapFactory.decodeStream(new FileInputStream(imageFile));
+        }
+        catch (FileNotFoundException e)
+        {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * Método salvar um arquivo de imagem, retornando o caminho do arquivo
+     */
+    static public String saveImageFile(Context context, String productName, Bitmap productImage) {
+        // caminho to /data/data/yourapp/app_data/imageDir
+        File directory = context.getDir("imageDir", Context.MODE_PRIVATE);
+        // cria um novo arquivo com o nome do produto
+        String filename = productName + ".jpg";
+        File file = new File(directory, filename);
+
+        try {
+            // salva em um bitmap usando um FileOutputStream
+            FileOutputStream fileStream = new FileOutputStream(file);
+            productImage.compress(Bitmap.CompressFormat.JPEG, 100, fileStream);
+            fileStream.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        // retorna o caminho para ser utilizado na DB
+        return filename;
     }
 
     @Override
@@ -197,6 +252,7 @@ public class InventoryProvider extends ContentProvider {
         double sellValue = values.getAsDouble( InventoryEntry.COLUMN_PRODUCT_SELL_VALUE );
         double buyValue = values.getAsDouble( InventoryEntry.COLUMN_PRODUCT_BUY_VALUE );
         int stockQuantity = values.getAsInteger( InventoryEntry.COLUMN_PRODUCT_STOCK );
+        String imagepath = values.getAsString(InventoryEntry.COLUMN_PRODUCT_IMAGE);
 
         // cria o  database de escrita
         SQLiteDatabase writeDatabase = mDbHelper.getWritableDatabase();

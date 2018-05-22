@@ -46,6 +46,7 @@ public class SummaryActivity extends AppCompatActivity implements LoaderManager.
     @Override
     public void onLoadFinished(Loader <Cursor> loader, Cursor cursor) {
 
+        // separa as colunas do cursor para cada atributo e abre uma variavel para cada elemento
         int sellColumnIndex = cursor.getColumnIndex( InventoryEntry.COLUMN_PRODUCT_SELL_VALUE );
         double sellValue;
 
@@ -55,26 +56,32 @@ public class SummaryActivity extends AppCompatActivity implements LoaderManager.
         int stockColumnIndex = cursor.getColumnIndex( InventoryEntry.COLUMN_PRODUCT_STOCK );
         int stockValue;
 
+        // formato para sistema monetário
         NumberFormat moneyFormat = NumberFormat.getCurrencyInstance();
 
+        //abre as variaveis dos dados que iremos utilizar
         int totalProductsValue = cursor.getCount();
         double totalCostValue = 0;
         double totalValueValue = 0;
         int totalItemsValue = 0;
 
 
+        // move o cursor para o primeiro elemento e corre eles atraves de um for loop
         cursor.moveToFirst();
         for (int itemsIndex = 0; itemsIndex < totalProductsValue; itemsIndex++) {
+            // atribui cada valor de cada linha do cursor
             stockValue = cursor.getInt( stockColumnIndex );
             sellValue = cursor.getDouble( sellColumnIndex ) * stockValue;
             buyValue = cursor.getDouble( buyColumnIndex ) * stockValue;
+            // incrementa ao total de cada varivel o valor recebido
             totalItemsValue = totalItemsValue + stockValue;
             totalCostValue = totalCostValue + buyValue;
             totalValueValue = totalValueValue + sellValue;
+            // passa para a proxima linha
             cursor.moveToNext();
         }
 
-
+        // atribui a cada TextView
         mTotalProducts.setText( String.valueOf( totalProductsValue ) );
         mTotalCost.setText( moneyFormat.format( totalCostValue ) );
         mTotalValue.setText( moneyFormat.format( totalValueValue ) );

@@ -88,9 +88,9 @@ public class InventoryContract {
         public final static String COLUMN_PRODUCT_STOCK = "stock";
 
         /**
-         * Imagem do Produto
+         * String do Arquivo da Imagem do Produto
          * <p>
-         * Type: BLOB
+         * Type: TEXT
          */
         public final static String COLUMN_PRODUCT_IMAGE = "image";
 

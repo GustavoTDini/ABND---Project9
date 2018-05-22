@@ -7,6 +7,8 @@ import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -19,6 +21,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.android.project9.Data.InventoryContract.InventoryEntry;
+import com.example.android.project9.Data.InventoryProvider;
 
 public class InventoryActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks <Cursor> {
 
@@ -61,7 +64,7 @@ public class InventoryActivity extends AppCompatActivity implements LoaderManage
             }
         } );
 
-        // Kick off the loader
+        // inicia o loader
         getLoaderManager().initLoader( INVENTORY_LOADER, null, this );
 
     }
@@ -97,25 +100,30 @@ public class InventoryActivity extends AppCompatActivity implements LoaderManage
         return super.onOptionsItemSelected( item );
     }
 
+    // metodo para adicionar um Invenatário de exemplo
     public void insertSampleInventory() {
 
-        insertItem( "Cupcake", 1, 1.5, 1.5, 3 );
-        insertItem( "Donut", 2, 1.6, 1.6, 4 );
-        insertItem( "Eclair", 3, 2.1, 2, 5 );
-        insertItem( "Frozen Yogurt", 4, 2.3, 2.2, 8 );
-        insertItem( "Gingerbread", 5, 2.7, 2.3, 9 );
-        insertItem( "Honeycomb", 6, 3.2, 3.0, 11 );
-        insertItem( "Ice Cream Sandwich", 7, 4.4, 4.0, 14 );
-        insertItem( "Jelly Bean", 8, 4.3, 4.1, 16 );
-        insertItem( "KitKat", 9, 4.4, 4.4, 19 );
-        insertItem( "Lollipop", 10, 5.1, 5.0, 21 );
-        insertItem( "Marshmallow", 11, 6.0, 6.0, 23 );
-        insertItem( "Nougat", 12, 7.1, 7, 24 );
-        insertItem( "Oreo", 13, 8.1, 8.0, 26 );
+        insertItem( "Cupcake", 1, 1.5, 1.5, 3, R.drawable.cupcake);
+        insertItem( "Donut", 2, 1.6, 1.6, 4, R.drawable.donut);
+        insertItem( "Eclair", 3, 2.1, 2, 5, R.drawable.eclair);
+        insertItem( "Frozen Yogurt", 4, 2.3, 2.2, 8, R.drawable.froyo);
+        insertItem( "Gingerbread", 5, 2.7, 2.3, 9, R.drawable.gingerbread );
+        insertItem( "Honeycomb", 6, 3.2, 3.0, 11, R.drawable.honeycomb );
+        insertItem( "Ice Cream Sandwich", 7, 4.4, 4.0, 14, R.drawable.icecreamsandwich );
+        insertItem( "Jelly Bean", 8, 4.3, 4.1, 16, R.drawable.jellybean );
+        insertItem( "KitKat", 9, 4.4, 4.4, 19, R.drawable.kitkat );
+        insertItem( "Lollipop", 10, 5.1, 5.0, 21, R.drawable.lollipop);
+        insertItem( "Marshmallow", 11, 6.0, 6.0, 23, R.drawable.marshmallow );
+        insertItem( "Nougat", 12, 7.1, 7, 24, R.drawable.nougat );
+        insertItem( "Oreo", 13, 8.1, 8.0, 26, R.drawable.oreo );
 
     }
 
-    public void insertItem(String name, int code, double sell, double buy, int stock) {
+    // metodo para adicionar um produto de exemplo
+    public void insertItem(String name, int code, double sell, double buy, int stock, int imageId) {
+
+        Bitmap productBitmap = BitmapFactory.decodeResource(getResources(), imageId);
+        String imagePathString = InventoryProvider.saveImageFile(this, name, productBitmap);
 
         ContentValues values = new ContentValues();
         values.put( InventoryEntry.COLUMN_PRODUCT_NAME, name );
@@ -123,9 +131,9 @@ public class InventoryActivity extends AppCompatActivity implements LoaderManage
         values.put( InventoryEntry.COLUMN_PRODUCT_SELL_VALUE, sell );
         values.put( InventoryEntry.COLUMN_PRODUCT_BUY_VALUE, buy );
         values.put( InventoryEntry.COLUMN_PRODUCT_STOCK, stock );
-
+        values.put( InventoryEntry.COLUMN_PRODUCT_IMAGE, imagePathString );
         getContentResolver().insert( InventoryEntry.CONTENT_URI, values );
-        Log.v( "InventoryTAG", "insertItem: " + values );
+
     }
 
     /**
