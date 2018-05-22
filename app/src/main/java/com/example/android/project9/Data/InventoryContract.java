@@ -10,7 +10,7 @@ public class InventoryContract {
      * O "Content authority" para o content provider deste contract
      */
     public static final String CONTENT_AUTHORITY = "com.example.android.project9";
-    public static final Uri BASE_CONTENT_URI = Uri.parse( "content://" + CONTENT_AUTHORITY );
+    public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
     public static final String PATH_INVENTORY = "inventory";
 
     // Construtor Vazio para esta classe não ser acessada erroneamente
@@ -26,7 +26,7 @@ public class InventoryContract {
         /**
          * o Uti para acessar os dados do inventario no provider
          */
-        public static final Uri CONTENT_URI = Uri.withAppendedPath( BASE_CONTENT_URI, PATH_INVENTORY );
+        public static final Uri CONTENT_URI = Uri.withAppendedPath(BASE_CONTENT_URI, PATH_INVENTORY);
 
         /**
          * O MIME para o inventário

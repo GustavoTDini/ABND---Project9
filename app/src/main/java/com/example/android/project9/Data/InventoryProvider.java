@@ -4,7 +4,6 @@ import android.content.ContentProvider;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.ContextWrapper;
 import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -14,10 +13,8 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
-import android.widget.ImageView;
 
 import com.example.android.project9.Data.InventoryContract.InventoryEntry;
-import com.example.android.project9.R;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -48,14 +45,14 @@ public class InventoryProvider extends ContentProvider {
     /**
      * Objeto UriMatcher para selecionar o respectivo código de URI
      */
-    private static final UriMatcher sUriMatcher = new UriMatcher( UriMatcher.NO_MATCH );
+    private static final UriMatcher sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 
     static {
         // URI de seleção de tabela inteira ou multiplas linhas
-        sUriMatcher.addURI( InventoryContract.CONTENT_AUTHORITY, InventoryContract.PATH_INVENTORY, INVENTORY );
+        sUriMatcher.addURI(InventoryContract.CONTENT_AUTHORITY, InventoryContract.PATH_INVENTORY, INVENTORY);
 
         // URI de seleção de linha unica de um produto da Tabela
-        sUriMatcher.addURI( InventoryContract.CONTENT_AUTHORITY, InventoryContract.PATH_INVENTORY + "/#", INVENTORY_ID );
+        sUriMatcher.addURI(InventoryContract.CONTENT_AUTHORITY, InventoryContract.PATH_INVENTORY + "/#", INVENTORY_ID);
     }
 
     /**
@@ -68,7 +65,7 @@ public class InventoryProvider extends ContentProvider {
      */
     public static Boolean checkIfContains(SQLiteDatabase readDatabase, String name, int code) {
         String nameQuery = "SELECT * FROM " + InventoryEntry.TABLE_NAME + " WHERE " + InventoryEntry.COLUMN_PRODUCT_NAME + " = ? OR " + InventoryEntry.COLUMN_PRODUCT_CODE + " = ?";
-        Cursor cursor = readDatabase.rawQuery( nameQuery, new String[]{name, String.valueOf( code )} );
+        Cursor cursor = readDatabase.rawQuery(nameQuery, new String[]{name, String.valueOf(code)});
         if (cursor.getCount() == 0) {
             cursor.close();
             return false;
@@ -87,11 +84,11 @@ public class InventoryProvider extends ContentProvider {
         quantity = quantity + changeQuantity;
 
         ContentValues values = new ContentValues();
-        values.put( InventoryEntry.COLUMN_PRODUCT_STOCK, quantity );
+        values.put(InventoryEntry.COLUMN_PRODUCT_STOCK, quantity);
 
-        Uri updateUri = ContentUris.withAppendedId( InventoryEntry.CONTENT_URI, columnId );
+        Uri updateUri = ContentUris.withAppendedId(InventoryEntry.CONTENT_URI, columnId);
 
-        int rowsAffected = context.getContentResolver().update( updateUri, values, null, null );
+        int rowsAffected = context.getContentResolver().update(updateUri, values, null, null);
 
         return updateUri;
     }
@@ -106,10 +103,8 @@ public class InventoryProvider extends ContentProvider {
             // abre o arquivo de acordo com o caminho
             File imageFile = new File(directory, imagePath);
             // retorna a imagem em Bitmap a ser utilizada
-            return  BitmapFactory.decodeStream(new FileInputStream(imageFile));
-        }
-        catch (FileNotFoundException e)
-        {
+            return BitmapFactory.decodeStream(new FileInputStream(imageFile));
+        } catch (FileNotFoundException e) {
             e.printStackTrace();
             return null;
         }
@@ -139,7 +134,7 @@ public class InventoryProvider extends ContentProvider {
 
     @Override
     public boolean onCreate() {
-        mDbHelper = new InventoryDbHelper( getContext() );
+        mDbHelper = new InventoryDbHelper(getContext());
         return true;
     }
 
@@ -155,25 +150,25 @@ public class InventoryProvider extends ContentProvider {
         Cursor cursor;
 
         // Verifica se o URIMatcher é Valido, isto é se é ou INVENTORY ou INVENTORY_ID
-        int match = sUriMatcher.match( uri );
+        int match = sUriMatcher.match(uri);
         switch (match) {
             case INVENTORY:
                 //Retorna o Cursor da tabela inteira
-                cursor = database.query( InventoryEntry.TABLE_NAME, projection, selection, selectionArgs, null, null, sortOrder );
+                cursor = database.query(InventoryEntry.TABLE_NAME, projection, selection, selectionArgs, null, null, sortOrder);
                 break;
             case INVENTORY_ID:
                 selection = InventoryEntry._ID + "=?";
-                selectionArgs = new String[]{String.valueOf( ContentUris.parseId( uri ) )};
+                selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
 
                 //Retorna o Cursor especifico da produto do inventory
-                cursor = database.query( InventoryEntry.TABLE_NAME, projection, selection, selectionArgs, null, null, sortOrder );
+                cursor = database.query(InventoryEntry.TABLE_NAME, projection, selection, selectionArgs, null, null, sortOrder);
                 break;
             default:
-                throw new IllegalArgumentException( "Cannot query unknown URI " + uri );
+                throw new IllegalArgumentException("Cannot query unknown URI " + uri);
         }
 
         // define o set notificationURI deste cursor, para identificarmos a troca de dados desta URI
-        cursor.setNotificationUri( getContext().getContentResolver(), uri );
+        cursor.setNotificationUri(getContext().getContentResolver(), uri);
 
         return cursor;
     }
@@ -181,14 +176,14 @@ public class InventoryProvider extends ContentProvider {
     @Nullable
     @Override
     public String getType(@NonNull Uri uri) {
-        final int match = sUriMatcher.match( uri );
+        final int match = sUriMatcher.match(uri);
         switch (match) {
             case INVENTORY:
                 return InventoryEntry.CONTENT_LIST_TYPE;
             case INVENTORY_ID:
                 return InventoryEntry.CONTENT_ITEM_TYPE;
             default:
-                throw new IllegalStateException( "Unknown URI " + uri + " with match " + match );
+                throw new IllegalStateException("Unknown URI " + uri + " with match " + match);
         }
     }
 
@@ -204,25 +199,25 @@ public class InventoryProvider extends ContentProvider {
         // Verifica o número de linhas apagadas
         int rowsDeleted;
 
-        final int match = sUriMatcher.match( uri );
+        final int match = sUriMatcher.match(uri);
         switch (match) {
             case INVENTORY:
                 // Apaga ttodo o Inventário
-                rowsDeleted = database.delete( InventoryEntry.TABLE_NAME, selection, selectionArgs );
+                rowsDeleted = database.delete(InventoryEntry.TABLE_NAME, selection, selectionArgs);
                 break;
             case INVENTORY_ID:
                 // Apaga um ou vários produto do inventário baseado em seu ID e da selection
                 selection = InventoryEntry._ID + "=?";
-                selectionArgs = new String[]{String.valueOf( ContentUris.parseId( uri ) )};
-                rowsDeleted = database.delete( InventoryEntry.TABLE_NAME, selection, selectionArgs );
+                selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
+                rowsDeleted = database.delete(InventoryEntry.TABLE_NAME, selection, selectionArgs);
                 break;
             default:
-                throw new IllegalArgumentException( "Deletion is not supported for " + uri );
+                throw new IllegalArgumentException("Deletion is not supported for " + uri);
         }
 
         // se alguma linha foi apagada a variavel rowsdeleted será diferente de 0 e será notificado a mudança de Uri
         if (rowsDeleted != 0) {
-            getContext().getContentResolver().notifyChange( uri, null );
+            getContext().getContentResolver().notifyChange(uri, null);
         }
 
         return rowsDeleted;
@@ -231,12 +226,12 @@ public class InventoryProvider extends ContentProvider {
     @Nullable
     @Override
     public Uri insert(@NonNull Uri uri, @Nullable ContentValues values) {
-        final int match = sUriMatcher.match( uri );
+        final int match = sUriMatcher.match(uri);
         switch (match) {
             case INVENTORY:
-                return insertDb( uri, values );
+                return insertDb(uri, values);
             default:
-                throw new IllegalArgumentException( "Insertion is not supported for " + uri );
+                throw new IllegalArgumentException("Insertion is not supported for " + uri);
         }
     }
 
@@ -247,11 +242,11 @@ public class InventoryProvider extends ContentProvider {
     private Uri insertDb(Uri uri, ContentValues values) {
 
         //Recebe os respectivos valores e os armazena
-        String name = values.getAsString( InventoryEntry.COLUMN_PRODUCT_NAME );
-        int code = values.getAsInteger( InventoryEntry.COLUMN_PRODUCT_CODE );
-        double sellValue = values.getAsDouble( InventoryEntry.COLUMN_PRODUCT_SELL_VALUE );
-        double buyValue = values.getAsDouble( InventoryEntry.COLUMN_PRODUCT_BUY_VALUE );
-        int stockQuantity = values.getAsInteger( InventoryEntry.COLUMN_PRODUCT_STOCK );
+        String name = values.getAsString(InventoryEntry.COLUMN_PRODUCT_NAME);
+        int code = values.getAsInteger(InventoryEntry.COLUMN_PRODUCT_CODE);
+        double sellValue = values.getAsDouble(InventoryEntry.COLUMN_PRODUCT_SELL_VALUE);
+        double buyValue = values.getAsDouble(InventoryEntry.COLUMN_PRODUCT_BUY_VALUE);
+        int stockQuantity = values.getAsInteger(InventoryEntry.COLUMN_PRODUCT_STOCK);
         String imagepath = values.getAsString(InventoryEntry.COLUMN_PRODUCT_IMAGE);
 
         // cria o  database de escrita
@@ -261,63 +256,63 @@ public class InventoryProvider extends ContentProvider {
         SQLiteDatabase readDatabase = mDbHelper.getReadableDatabase();
 
         // Verifica se o nome e o codigo já existem na tabela, neste caso não é adicionado um novo produto
-        if (checkIfContains( readDatabase, name, code )) {
+        if (checkIfContains(readDatabase, name, code)) {
             return null;
         } else {
 
             // Verifica se o nome não é Null
             if (name == null) {
-                throw new IllegalArgumentException( "Product requires a name" );
+                throw new IllegalArgumentException("Product requires a name");
             }
 
             // Verifica se o Codigo não é Null
             if (code == 0) {
-                throw new IllegalArgumentException( "Product requires a code" );
+                throw new IllegalArgumentException("Product requires a code");
             }
 
             // Verifica se o Valor de venda é maior que 0
             if (!(sellValue >= 0)) {
-                throw new IllegalArgumentException( "Sell Value must be Greater than 0" );
+                throw new IllegalArgumentException("Sell Value must be Greater than 0");
             }
 
             // Verifica se o Valor de compra é maior que 0
             if (!(buyValue >= 0)) {
-                throw new IllegalArgumentException( "Buy Value must be Greater than 0" );
+                throw new IllegalArgumentException("Buy Value must be Greater than 0");
             }
 
             // Verifica se quantidade em estoque é maior ou igual a 0
             if (!(stockQuantity >= 0)) {
-                throw new IllegalArgumentException( "Stock quantity must be greater or equal 0" );
+                throw new IllegalArgumentException("Stock quantity must be greater or equal 0");
             }
 
             // Se passar em todas as verificações insere un novo item no banco de dados
-            long id = writeDatabase.insert( InventoryEntry.TABLE_NAME, null, values );
+            long id = writeDatabase.insert(InventoryEntry.TABLE_NAME, null, values);
 
             // se o valor retornado for igual a -1, então a verificação falhou e irá retornar null e avisar no Log
             if (id == -1) {
-                Log.e( LOG_TAG, "Failed to insert row for " + uri );
+                Log.e(LOG_TAG, "Failed to insert row for " + uri);
                 return null;
             }
 
             // Notifica a mudança do Uri aos Listeners
-            getContext().getContentResolver().notifyChange( uri, null );
+            getContext().getContentResolver().notifyChange(uri, null);
 
-            return ContentUris.withAppendedId( uri, id );
+            return ContentUris.withAppendedId(uri, id);
         }
     }
 
     @Override
     public int update(@NonNull Uri uri, @Nullable ContentValues values, @Nullable String selection, @Nullable String[] selectionArgs) {
-        final int match = sUriMatcher.match( uri );
+        final int match = sUriMatcher.match(uri);
         switch (match) {
             case INVENTORY:
-                return updateDb( uri, values, selection, selectionArgs );
+                return updateDb(uri, values, selection, selectionArgs);
             case INVENTORY_ID:
                 selection = InventoryEntry._ID + "=?";
-                selectionArgs = new String[]{String.valueOf( ContentUris.parseId( uri ) )};
-                return updateDb( uri, values, selection, selectionArgs );
+                selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
+                return updateDb(uri, values, selection, selectionArgs);
             default:
-                throw new IllegalArgumentException( "Update is not supported for " + uri );
+                throw new IllegalArgumentException("Update is not supported for " + uri);
         }
     }
 
@@ -328,38 +323,38 @@ public class InventoryProvider extends ContentProvider {
     private int updateDb(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
 
         // Verifica se o nome é presente e não é Null
-        if (values.containsKey( InventoryEntry.COLUMN_PRODUCT_NAME )) {
-            String name = values.getAsString( InventoryEntry.COLUMN_PRODUCT_NAME );
+        if (values.containsKey(InventoryEntry.COLUMN_PRODUCT_NAME)) {
+            String name = values.getAsString(InventoryEntry.COLUMN_PRODUCT_NAME);
             if (name == null) {
-                throw new IllegalArgumentException( "Product requires a name" );
+                throw new IllegalArgumentException("Product requires a name");
             }
         }
         // Verifica se o código é presente e não é Null
-        if (values.containsKey( InventoryEntry.COLUMN_PRODUCT_CODE )) {
-            String code = values.getAsString( InventoryEntry.COLUMN_PRODUCT_CODE );
+        if (values.containsKey(InventoryEntry.COLUMN_PRODUCT_CODE)) {
+            String code = values.getAsString(InventoryEntry.COLUMN_PRODUCT_CODE);
             if (code == null) {
-                throw new IllegalArgumentException( "Product requires a name" );
+                throw new IllegalArgumentException("Product requires a name");
             }
         }
         // Verifica se o Valor de venda é presente e maior que 0
-        if (values.containsKey( InventoryEntry.COLUMN_PRODUCT_SELL_VALUE )) {
-            double sellValue = values.getAsDouble( InventoryEntry.COLUMN_PRODUCT_SELL_VALUE );
+        if (values.containsKey(InventoryEntry.COLUMN_PRODUCT_SELL_VALUE)) {
+            double sellValue = values.getAsDouble(InventoryEntry.COLUMN_PRODUCT_SELL_VALUE);
             if (!(sellValue > 0)) {
-                throw new IllegalArgumentException( "Sell Value must be Greater than 0" );
+                throw new IllegalArgumentException("Sell Value must be Greater than 0");
             }
         }
         // Verifica se o Valor de compra é presente e maior que 0
-        if (values.containsKey( InventoryEntry.COLUMN_PRODUCT_BUY_VALUE )) {
-            double buyValue = values.getAsDouble( InventoryEntry.COLUMN_PRODUCT_BUY_VALUE );
+        if (values.containsKey(InventoryEntry.COLUMN_PRODUCT_BUY_VALUE)) {
+            double buyValue = values.getAsDouble(InventoryEntry.COLUMN_PRODUCT_BUY_VALUE);
             if (!(buyValue > 0)) {
-                throw new IllegalArgumentException( "Buy Value must be Greater than 0" );
+                throw new IllegalArgumentException("Buy Value must be Greater than 0");
             }
         }
         // Verifica se a quantidade em estoque é presente e maior ou igual a 0
-        if (values.containsKey( InventoryEntry.COLUMN_PRODUCT_STOCK )) {
-            int stockQuantity = values.getAsInteger( InventoryEntry.COLUMN_PRODUCT_STOCK );
+        if (values.containsKey(InventoryEntry.COLUMN_PRODUCT_STOCK)) {
+            int stockQuantity = values.getAsInteger(InventoryEntry.COLUMN_PRODUCT_STOCK);
             if (!(stockQuantity >= 0)) {
-                throw new IllegalArgumentException( "Stock quantity must be greater or equal 0" );
+                throw new IllegalArgumentException("Stock quantity must be greater or equal 0");
             }
         }
 
@@ -372,11 +367,11 @@ public class InventoryProvider extends ContentProvider {
         SQLiteDatabase database = mDbHelper.getWritableDatabase();
 
         // Se passar em todas as verificações atualiza os itens no banco de dados
-        int rowsUpdated = database.update( InventoryEntry.TABLE_NAME, values, selection, selectionArgs );
+        int rowsUpdated = database.update(InventoryEntry.TABLE_NAME, values, selection, selectionArgs);
 
         // Se houver mudanças, isto é rows updated for diferente de 0, Notifica a mudança do Uri aos Listeners
         if (rowsUpdated != 0) {
-            getContext().getContentResolver().notifyChange( uri, null );
+            getContext().getContentResolver().notifyChange(uri, null);
         }
 
         return rowsUpdated;

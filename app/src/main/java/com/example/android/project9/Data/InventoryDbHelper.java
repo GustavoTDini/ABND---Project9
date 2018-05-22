@@ -24,7 +24,7 @@ public class InventoryDbHelper extends SQLiteOpenHelper {
      * @param context of the app
      */
     public InventoryDbHelper(Context context) {
-        super( context, DATABASE_NAME, null, DATABASE_VERSION );
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
     /**
@@ -36,7 +36,7 @@ public class InventoryDbHelper extends SQLiteOpenHelper {
         String SQL_CREATE_INVENTORY_TABLE = "CREATE TABLE " + InventoryEntry.TABLE_NAME + " (" + InventoryEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + InventoryEntry.COLUMN_PRODUCT_NAME + " TEXT NOT NULL, " + InventoryEntry.COLUMN_PRODUCT_CODE + " INTEGER NOT NULL, " + InventoryEntry.COLUMN_PRODUCT_IMAGE + " TEXT, " + InventoryEntry.COLUMN_PRODUCT_SELL_VALUE + " REAL NOT NULL, " + InventoryEntry.COLUMN_PRODUCT_BUY_VALUE + " REAL NOT NULL, " + InventoryEntry.COLUMN_PRODUCT_STOCK + " INTEGER NOT NULL DEFAULT 0);";
 
         // Execute the SQL statement
-        db.execSQL( SQL_CREATE_INVENTORY_TABLE );
+        db.execSQL(SQL_CREATE_INVENTORY_TABLE);
     }
 
     /**
