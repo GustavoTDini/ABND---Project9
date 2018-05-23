@@ -11,7 +11,7 @@
     <ListView
         android:id="@+id/inventory_list_view"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content" />
 
     <!-- View vazia para a lista -->
     <RelativeLayout
@@ -21,13 +21,13 @@
         android:layout_centerInParent="true">
 
         <ImageView
-            android:contentDescription="@string/empty_list_image"
             android:id="@+id/empty_image"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_centerHorizontal="true"
+            android:contentDescription="@string/empty_list_image"
             android:src="@drawable/ic_do_not_disturb"
-            android:tint="@android:color/holo_red_light"/>
+            android:tint="@android:color/holo_red_light" />
 
         <TextView
             android:id="@+id/empty_title_text"

@@ -3,6 +3,7 @@ package com.example.android.project9;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.LoaderManager;
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.CursorLoader;
 import android.content.DialogInterface;
@@ -14,7 +15,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -24,21 +24,25 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.android.project9.Data.InventoryContract.InventoryEntry;
 import com.example.android.project9.Data.InventoryDbHelper;
 import com.example.android.project9.Data.InventoryProvider;
 
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
 import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Locale;
 
 public class EditActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
@@ -55,7 +59,12 @@ public class EditActivity extends AppCompatActivity implements LoaderManager.Loa
      * Identificador do Loader
      */
     private static final int INVENTORY_LOADER = 0;
-    String mCurrentPhotoPath;
+
+    /**
+     * Database helper object
+     */
+    private InventoryDbHelper mDbHelper;
+
     /**
      * Uri para o produto para edição - null se for adicionar novo item
      */
@@ -64,6 +73,7 @@ public class EditActivity extends AppCompatActivity implements LoaderManager.Loa
      * Variavel para Verificar se houve mudança na Edição
      */
     private boolean mHasChanges = false;
+
     private EditText mProductNameView;
     private EditText mProductCodeView;
     private EditText mProductBuyView;
@@ -72,7 +82,16 @@ public class EditActivity extends AppCompatActivity implements LoaderManager.Loa
     private ImageView mProductImageView;
     private Button mDeleteButton;
     private Button mEditImageButton;
+    private Button mAddStockButton;
+    private Button mRemoveStockButton;
+    private Button mOrderButton;
+    private LinearLayout mStockControlView;
+    private Spinner mChangeStockView;
 
+    /**
+     * Variavel para Acompanhar a mudança no Spinner
+     */
+    private int mSelectedChangeStock;
 
     // Métodos de Controle da Activity -------------------------------------------------------------
     private ImageButton mRotateImageButton;
@@ -110,16 +129,28 @@ public class EditActivity extends AppCompatActivity implements LoaderManager.Loa
         mProductImageView = findViewById(R.id.edit_image);
         mEditImageButton = findViewById(R.id.edit_image_button);
         mRotateImageButton = findViewById(R.id.rotate_image_button);
+        mStockControlView = findViewById(R.id.stock_control_view);
+        mAddStockButton = findViewById(R.id.edit_add_stock_button);
+        mRemoveStockButton = findViewById(R.id.edit_remove_stock_button);
+        mOrderButton = findViewById(R.id.order_button);
+        mChangeStockView = findViewById(R.id.change_stock_quantity);
+
 
         // Verifica se a Activity está sendo usada para editar ou adicionar um produto e
-        // modifica o Titulo, mostra ou não o botão de Apagar
+        // modifica o Titulo, mostra ou não o botão de Apagar, os controles de estoque e o botão de pedir
         if (mCurrentProductUri == null) {
             setTitle(R.string.edit_new_product_title);
+            mOrderButton.setVisibility(View.GONE);
+            mStockControlView.setVisibility(View.GONE);
             mDeleteButton.setVisibility(View.GONE);
         } else {
+            mOrderButton.setVisibility(View.VISIBLE);
+            mStockControlView.setVisibility(View.VISIBLE);
             mDeleteButton.setVisibility(View.VISIBLE);
+            mProductStockView.setKeyListener(null);
             getLoaderManager().initLoader(INVENTORY_LOADER, null, this);
         }
+
 
         mProductNameView.setOnTouchListener(mTouchListener);
         mProductCodeView.setOnTouchListener(mTouchListener);
@@ -154,6 +185,46 @@ public class EditActivity extends AppCompatActivity implements LoaderManager.Loa
             }
         });
 
+        // Botão de Adicionar ao estoque - verifica o valor do Spinner e incrementa ao estoque, montrando um toast de sucesso,
+        // só aparecera na atualização de um produto
+        mAddStockButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // recebe o nome do produto para ser utilizado no toast
+                String productName = mProductNameView.getText().toString().trim();
+                changeStockEditActivity(mSelectedChangeStock);
+                // caso o valor adicionado seja maior que 1, adiciona o plural
+                if (mSelectedChangeStock > 1) {
+                    productName = productName + "s";
+                }
+                Toast.makeText(EditActivity.this, String.format(getResources().getString(R.string.add_more_stock_toast), mSelectedChangeStock, productName), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        // Botão de Remover do estoque - verifica o valor do Spinner e incrementa ao estoque, montrando um toast de sucesso,
+        // irá verificar se o estoque é 0, ou se o valor é maior que o estoque atual nestes casos nada acontecerá e mostrara um Toast de Alerta
+        // só aparecera na atualização de um produto
+        mRemoveStockButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // recebe o nome do produto para ser utilizado no toast e o valor do estoque para teste
+                String productName = mProductNameView.getText().toString().trim();
+                int stockValue = Integer.parseInt(mProductStockView.getText().toString().trim());
+                if (stockValue == 0) {
+                    Toast.makeText(EditActivity.this, String.format(getResources().getString(R.string.no_more_stock_toast), productName), Toast.LENGTH_SHORT).show();
+                } else if (mSelectedChangeStock > stockValue) {
+                    Toast.makeText(EditActivity.this, String.format(getResources().getString(R.string.value_larger_than_stock_toast), mSelectedChangeStock), Toast.LENGTH_SHORT).show();
+                } else {
+                    changeStockEditActivity(mSelectedChangeStock * -1);
+                    if (mSelectedChangeStock > 1) {
+                        productName = productName + "s";
+                    }
+                    Toast.makeText(EditActivity.this, String.format(getResources().getString(R.string.remove_more_stock_toast), mSelectedChangeStock, productName), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+        });
+
         // Botão de Apagar - acessa o método para apagar o produto, só aparecera na atualização de um produto
         mDeleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -182,6 +253,16 @@ public class EditActivity extends AppCompatActivity implements LoaderManager.Loa
                 }
             }
         });
+
+        mOrderButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openOrderServiceDialog(mProductNameView.getText().toString().trim());
+            }
+        });
+
+        populateSpinner();
+
     }
 
     // Criação do menu para a função do botão home
@@ -248,6 +329,7 @@ public class EditActivity extends AppCompatActivity implements LoaderManager.Loa
             if (!TextUtils.isEmpty(imageFilePath)) {
                 mProductImageView.setImageBitmap(InventoryProvider.openImageFile(this, imageFilePath));
             }
+
         }
     }
 
@@ -271,9 +353,9 @@ public class EditActivity extends AppCompatActivity implements LoaderManager.Loa
             int rowsDeleted = getContentResolver().delete(mCurrentProductUri, null, null);
             // teste se o rows deleted é igual ou diferente de 0, indicando o sucesso do delete, e mostrando um toast, ou o oposto
             if (rowsDeleted == 0) {
-                Toast.makeText(this, String.format(getResources().getString(R.string.edit_delete_error_message, mProductNameView.getText().toString())), Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, String.format(getResources().getString(R.string.edit_delete_error_message), mProductNameView.getText().toString()), Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(this, String.format(getResources().getString(R.string.edit_delete_success_message, mProductNameView.getText().toString())), Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, String.format(getResources().getString(R.string.edit_delete_success_message), mProductNameView.getText().toString()), Toast.LENGTH_SHORT).show();
             }
             finish();
         }
@@ -377,10 +459,35 @@ public class EditActivity extends AppCompatActivity implements LoaderManager.Loa
     // dialogo de confirmação de delete
     private void showDeleteConfirmationDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage(String.format(getResources().getString(R.string.edit_dialog_delete_message, mProductNameView.getText().toString())));
+        builder.setMessage(String.format(getResources().getString(R.string.edit_dialog_delete_message), mProductNameView.getText().toString()));
         builder.setPositiveButton(R.string.edit_dialog_delete, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 deleteProduct();
+            }
+        });
+        builder.setNegativeButton(R.string.edit_dialog_cancel, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                if (dialog != null) {
+                    dialog.dismiss();
+                }
+            }
+        });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+
+    // dialogo de Abrir Solicitação de Estoque
+    private void openOrderServiceDialog(final String productName) {
+        String unit = "unidade";
+        // teste se o pedido é maior que uma unidade para corrigir o plural
+        if (mSelectedChangeStock > 1) {
+            unit = "unidades";
+        }
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(String.format(getResources().getString(R.string.edit_order_dialog_message), mSelectedChangeStock, unit, productName));
+        builder.setPositiveButton(R.string.edit_dialog_confirm, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                emailOrder(productName, mSelectedChangeStock);
             }
         });
         builder.setNegativeButton(R.string.edit_dialog_cancel, new DialogInterface.OnClickListener() {
@@ -431,27 +538,85 @@ public class EditActivity extends AppCompatActivity implements LoaderManager.Loa
         return Double.parseDouble(money);
     }
 
-    private File createImageFile(String productName) throws IOException {
-        // Create an image file name
-        String imageFileName = "JPEG_" + productName + "_";
-        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        File image = File.createTempFile(
-                imageFileName,  /* prefix */
-                ".jpg",         /* suffix */
-                storageDir      /* directory */
-        );
 
-        // Save a file: path for use with ACTION_VIEW intents
-        mCurrentPhotoPath = image.getAbsolutePath();
-        return image;
+    //método para modificar
+    private void changeStockEditActivity(int changeQuantity) {
+        mDbHelper = new InventoryDbHelper(this);
+        SQLiteDatabase database = mDbHelper.getReadableDatabase();
+        String selection = InventoryEntry._ID + "=?";
+        String[] selectionArgs = new String[]{String.valueOf(ContentUris.parseId(mCurrentProductUri))};
+        Cursor cursor = database.query(InventoryEntry.TABLE_NAME, null, selection, selectionArgs, null, null, null, null);
+        cursor.moveToFirst();
+        int IdColumnIndex = cursor.getColumnIndex(InventoryEntry._ID);
+        final int columnId = cursor.getInt(IdColumnIndex);
+
+        int stockColumnIndex = cursor.getColumnIndex(InventoryEntry.COLUMN_PRODUCT_STOCK);
+        final int stockValue = cursor.getInt(stockColumnIndex);
+
+        InventoryProvider.changeStock(this, columnId, stockValue, changeQuantity);
+        cursor.close();
     }
 
-    private void galleryAddPic() {
-        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-        File f = new File(mCurrentPhotoPath);
-        Uri contentUri = Uri.fromFile(f);
-        mediaScanIntent.setData(contentUri);
-        this.sendBroadcast(mediaScanIntent);
+
+    // Metéodo para montar e definir a função do Spinner de seleção de quantidade a ser modificado do estoque
+    private void populateSpinner() {
+        // valor maximo do Array
+        int maxArray = 100;
+
+        // Criação do ArrayList para popular o Spinner
+        ArrayList maxStockArray = new ArrayList(maxArray);
+        for (int i = 1; i <= maxArray; ++i) {
+            maxStockArray.add(i);
+        }
+
+        //criando um Array Adapter com a ArrayList para e aplica-lo ao Spinner
+        ArrayAdapter stockAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, maxStockArray);
+        stockAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mChangeStockView.setAdapter(stockAdapter);
+
+        mChangeStockView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                // definir o Valor da seleção
+                int selected = (int) parent.getItemAtPosition(position);
+                if (selected != 0) {
+                    mSelectedChangeStock = selected;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                mSelectedChangeStock = 0;
+            }
+        });
+    }
+
+    // abre o intent de Email
+    private void emailOrder(String productName, int stockRequest) {
+        String greeting;
+        String unit = "unidade";
+        // teste se o pedido é maior que uma unidade para corrigir o plural
+        if (stockRequest > 1) {
+            unit = "unidades";
+        }
+        // recebe a hora atual
+        Calendar calendar = Calendar.getInstance();
+        int currentHour = calendar.get(Calendar.HOUR_OF_DAY);
+
+        // mudamos a saudação dependendo da hora do dia
+        if (currentHour >= 6 && currentHour <= 12) {
+            greeting = "Bom Dia";
+        } else if (currentHour > 13 && currentHour <= 18) {
+            greeting = "Boa Tarde";
+        } else greeting = "Boa Noite";
+
+        Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
+        String[] email = {String.format(getResources().getString(R.string.email_order_address), productName)};
+        emailIntent.putExtra(Intent.EXTRA_EMAIL, email);
+        emailIntent.setData(Uri.parse("mailto:"));
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, String.format(getResources().getString(R.string.email_order_subject), productName));
+        emailIntent.putExtra(Intent.EXTRA_TEXT, String.format(getResources().getString(R.string.email_order_content), greeting, stockRequest, unit, productName));
+        startActivity(emailIntent);
     }
 
 
@@ -512,4 +677,5 @@ public class EditActivity extends AppCompatActivity implements LoaderManager.Loa
         }
 
     }
+
 }

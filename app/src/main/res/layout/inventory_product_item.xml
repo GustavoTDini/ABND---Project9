@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="100dp"
     android:background="@color/colorPrimaryLight"
@@ -34,7 +33,7 @@
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/sell_label"
         android:layout_alignBottom="@+id/sell_label"
-        android:layout_centerHorizontal="true"/>
+        android:layout_centerHorizontal="true" />
 
     <TextView
         android:id="@+id/sell_label"

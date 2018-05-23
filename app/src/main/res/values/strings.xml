@@ -53,6 +53,14 @@
     <string name="edit_insert_success_message">%1$s Adicionado com Sucesso</string>
     <string name="edit_update_error_message">Não Foi Possível Atualizar %1$s</string>
     <string name="edit_update_success_message">%1$s Atualizado com Sucesso</string>
+    <string name="value_larger_than_stock_toast">%1$d é maior que o estoque Atual</string>
+    <string name="no_more_stock_toast">Sem mais %1$s no estoque</string>
+    <string name="add_more_stock_toast">Adicionado %1$d %2$s ao Estoque</string>
+    <string name="remove_more_stock_toast">Removido %1$d %2$s do Estoque</string>
+    <string name="new_order_button">Nova encomenda deste Produto</string>
+    <string name="email_order_subject">Ordem de Pedido de %1$s</string>
+    <string name="email_order_address">%1$s@submitorder.com</string>
+    <string name="email_order_content">%1$s \n Solicito uma ordem de entrega de %2$d %3$s do %4$s. \n\n Obrigado.</string>
 
     <!--Strings dos Dialogs-->
     <string name="edit_dialog_delete_message">Confirma Exclusão de %1$s</string>
@@ -67,6 +75,8 @@
     <string name="edit_image_selection_message">Deseja escolher uma foto da Galeria ou tirar uma nova foto?</string>
     <string name="edit_image_selection_gallery">Galeria</string>
     <string name="edit_image_selection_camera">Nova Foto</string>
+    <string name="edit_order_dialog_message">Solicitar %1$d %2$s de %3$s?</string>
+    <string name="edit_dialog_confirm">Confirmar</string>
 
 
 </resources>

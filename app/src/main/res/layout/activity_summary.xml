@@ -36,10 +36,10 @@
                 android:text="@string/summary_total_cost" />
 
             <ImageView
-                android:contentDescription="@string/separation_bar"
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
-                android:background="@color/colorAccent" />
+                android:background="@color/colorAccent"
+                android:contentDescription="@string/separation_bar" />
 
             <TextView
                 android:id="@+id/summary_cost_value"
@@ -76,10 +76,10 @@
                 android:text="@string/summary_product_types" />
 
             <ImageView
-                android:contentDescription="@string/separation_bar"
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
-                android:background="@color/colorAccent" />
+                android:background="@color/colorAccent"
+                android:contentDescription="@string/separation_bar" />
 
             <TextView
                 android:id="@+id/summary_products_kinds"
@@ -96,17 +96,17 @@
                 android:text="@string/summary_total_units" />
 
             <ImageView
-                android:contentDescription="@string/separation_bar"
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
-                android:background="@color/colorAccent" />
+                android:background="@color/colorAccent"
+                android:contentDescription="@string/separation_bar" />
 
             <TextView
                 android:id="@+id/summary_total_items"
                 style="@style/SummaryValues"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAlignment="textEnd"/>
+                android:textAlignment="textEnd" />
 
         </LinearLayout>
 

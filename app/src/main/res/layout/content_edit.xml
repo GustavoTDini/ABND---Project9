@@ -44,6 +44,51 @@
             android:inputType="text"
             android:textAlignment="textEnd" />
 
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/colorAccent"
+            android:contentDescription="@string/separation_bar" />
+
+        <ImageView
+            android:id="@+id/edit_image"
+            style="@style/SummaryValues"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:contentDescription="@string/edit_image_view"
+            android:src="@drawable/image_placeholder"
+            android:textAlignment="textEnd" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginTop="4dp"
+            android:orientation="horizontal"
+            android:padding="6dp"
+            android:weightSum="9">
+
+            <ImageButton
+                android:id="@+id/rotate_image_button"
+                android:layout_width="1dp"
+                android:layout_height="30dp"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/round_button"
+                android:src="@drawable/ic_rotate_right" />
+
+            <Button
+                android:id="@+id/edit_image_button"
+                android:layout_width="1dp"
+                android:layout_height="30dp"
+                android:layout_weight="8"
+                android:background="@drawable/round_button"
+                android:padding="6dp"
+                android:text="@string/edit_select_image_button"
+                android:textAlignment="textEnd"
+                android:textColor="@android:color/white" />
+
+        </LinearLayout>
+
         <TextView
             style="@style/SummaryLabels"
             android:layout_width="wrap_content"
@@ -132,59 +177,78 @@
             android:inputType="number"
             android:textAlignment="textEnd" />
 
-        <TextView
-            style="@style/SummaryLabels"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="@string/edit_image" />
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:background="@color/colorAccent"
-            android:contentDescription="@string/separation_bar" />
-
-        <ImageView
-            android:id="@+id/edit_image"
-            style="@style/SummaryValues"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:contentDescription="@string/edit_image_view"
-            android:src="@drawable/image_placeholder"
-            android:textAlignment="textEnd" />
-
         <LinearLayout
+            android:id="@+id/stock_control_view"
             android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:orientation="horizontal"
-            android:layout_marginTop="4dp"
-            android:padding="6dp"
-            android:weightSum="9">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-            <ImageButton
-                android:layout_weight="1"
-                android:id="@+id/rotate_image_button"
-                android:layout_width="1dp"
-                android:layout_height="30dp"
-                android:background="@drawable/round_button"
-                android:src="@drawable/ic_rotate_right"
-                android:layout_marginEnd="8dp"/>
+            <TextView
+                style="@style/SummaryLabels"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Modificar Estoque"
+                android:textSize="16sp" />
 
-            <Button
-                android:layout_weight="8"
-                android:id="@+id/edit_image_button"
-                android:layout_width="1dp"
-                android:layout_height="30dp"
-                android:background="@drawable/round_button"
-                android:padding="6dp"
-                android:text="@string/edit_select_image_button"
-                android:textAlignment="textEnd"
-                android:textColor="@android:color/white" />
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@color/colorAccent"
+                android:contentDescription="@string/separation_bar" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="3">
+
+                <Button
+                    android:id="@+id/edit_remove_stock_button"
+                    android:layout_width="1dp"
+                    android:layout_height="30dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/round_button"
+                    android:gravity="center"
+                    android:padding="6dp"
+                    android:text="-"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/white"
+                    android:textSize="20sp" />
+
+                <Spinner
+                    android:id="@+id/change_stock_quantity"
+                    style="@style/SummaryValues"
+                    android:layout_width="1dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textAlignment="center" />
+
+                <Button
+                    android:id="@+id/edit_add_stock_button"
+                    android:layout_width="1dp"
+                    android:layout_height="30dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/round_button"
+                    android:padding="6dp"
+                    android:text="+"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/white"
+                    android:textSize="20sp" />
+
+            </LinearLayout>
 
         </LinearLayout>
 
-
+        <Button
+            android:id="@+id/order_button"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="18dp"
+            android:background="@drawable/round_button"
+            android:padding="6dp"
+            android:text="@string/new_order_button"
+            android:textAlignment="center"
+            android:textColor="@android:color/white" />
 
         <Button
             android:id="@+id/delete_button"
@@ -195,8 +259,7 @@
             android:padding="6dp"
             android:text="@string/edit_delete_button"
             android:textAlignment="center"
-            android:textColor="@android:color/white"
-            android:visibility="gone" />
+            android:textColor="@android:color/white" />
 
         <!-- View "Dummy" para fazer as vezes de uma margin
         devido a visibilidade ou não do deleteButton -->
@@ -204,7 +267,7 @@
             android:layout_width="wrap_content"
             android:layout_height="80dp"
             android:contentDescription="@string/edit_margin"
-            android:visibility="invisible"/>
+            android:visibility="invisible" />
 
     </LinearLayout>
 
