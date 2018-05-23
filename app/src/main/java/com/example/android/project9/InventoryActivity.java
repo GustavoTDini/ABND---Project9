@@ -27,7 +27,7 @@ public class InventoryActivity extends AppCompatActivity implements LoaderManage
 
     private static final int INVENTORY_LOADER = 0;
 
-    public InventoryCursorAdapter mCursorAdapter;
+    private InventoryCursorAdapter mCursorAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,15 +52,15 @@ public class InventoryActivity extends AppCompatActivity implements LoaderManage
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Log.v("InventoryActivity", "ID " + id);
                 // abre o novo intent
-                Intent EditIntent = new Intent(InventoryActivity.this, EditActivity.class);
+                Intent editIntent = new Intent(InventoryActivity.this, EditActivity.class);
 
                 // Carrega o Uri que contem o item clicado e o carrega como data para o intent
                 Uri productUri = ContentUris.withAppendedId(InventoryEntry.CONTENT_URI, id);
                 Log.v("InventoryActivity", "setOnClikID " + productUri);
-                EditIntent.setData(productUri);
+                editIntent.setData(productUri);
 
                 // Abre a nova Activity
-                startActivity(EditIntent);
+                startActivity(editIntent);
             }
         });
 

@@ -8,19 +8,19 @@
     tools:context="com.example.android.project9.EditActivity"
     tools:showIn="@layout/activity_edit">
 
+    <!-- View "Dummy" para Prevenir o teclado de abrir junto com a atividade -->
+    <LinearLayout
+        android:layout_width="0px"
+        android:layout_height="0px"
+        android:focusable="true"
+        android:focusableInTouchMode="true" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="18dp"
         android:orientation="vertical"
         android:padding="20dp">
-
-        <!-- View "Dummy" para Prevenir o teclado de abrir junto com a atividade -->
-        <LinearLayout
-            android:layout_width="0px"
-            android:layout_height="0px"
-            android:focusable="true"
-            android:focusableInTouchMode="true" />
 
         <TextView
             style="@style/SummaryLabels"
@@ -74,6 +74,7 @@
                 android:layout_marginEnd="8dp"
                 android:layout_weight="1"
                 android:background="@drawable/round_button"
+                android:contentDescription="@string/rotate_image_button"
                 android:src="@drawable/ic_rotate_right" />
 
             <Button
@@ -187,7 +188,7 @@
                 style="@style/SummaryLabels"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Modificar Estoque"
+                android:text="@string/change_stock_control_label"
                 android:textSize="16sp" />
 
             <ImageView
@@ -206,14 +207,15 @@
                     android:id="@+id/edit_remove_stock_button"
                     android:layout_width="1dp"
                     android:layout_height="30dp"
+                    android:layout_margin="4dp"
                     android:layout_weight="1"
                     android:background="@drawable/round_button"
                     android:gravity="center"
-                    android:padding="6dp"
-                    android:text="-"
-                    android:textAlignment="center"
+
+                    android:text="@string/edit_minus_button"
                     android:textColor="@android:color/white"
-                    android:textSize="20sp" />
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
 
                 <Spinner
                     android:id="@+id/change_stock_quantity"
@@ -227,13 +229,14 @@
                     android:id="@+id/edit_add_stock_button"
                     android:layout_width="1dp"
                     android:layout_height="30dp"
+                    android:layout_margin="4dp"
                     android:layout_weight="1"
                     android:background="@drawable/round_button"
-                    android:padding="6dp"
-                    android:text="+"
-                    android:textAlignment="center"
+                    android:gravity="center"
+                    android:text="@string/edit_plus_button"
                     android:textColor="@android:color/white"
-                    android:textSize="20sp" />
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
 
             </LinearLayout>
 

@@ -29,6 +29,10 @@
     <string name="edit_delete_button">Deletar</string>
     <string name="edit_stock_hint">0</string>
     <string name="edit_margin">Edit Margin Dummy Image</string>
+    <string name="edit_plus_button">+</string>
+    <string name="edit_minus_button">-</string>
+    <string name="rotate_image_button">Botão de girar Imagen</string>
+    <string name="change_stock_control_label">Modificar Estoque</string>
 
     <!--Strings do Layoout da Lista-->
     <string name="list_product">PRODUTO</string>
@@ -61,6 +65,17 @@
     <string name="email_order_subject">Ordem de Pedido de %1$s</string>
     <string name="email_order_address">%1$s@submitorder.com</string>
     <string name="email_order_content">%1$s \n Solicito uma ordem de entrega de %2$d %3$s do %4$s. \n\n Obrigado.</string>
+    <string name="edit_intent_send_email">Enviar Email</string>
+    <string name="image_intent_type">image/*</string>
+    <string name="select_picture_intent">Select Picture</string>
+    <string name="intent_data">data</string>
+    <string name="greeting_day">Bom Dia</string>
+    <string name="greeting_afternoon">Boa Tarde</string>
+    <string name="greeting_night">Boa Noite</string>
+    <string name="string_format_unit">unidade</string>
+    <string name="string_format_units">unidades</string>
+    <string name="intent_email_type">text/plain</string>
+    <string name="intent_email_data">mailto:</string>
 
     <!--Strings dos Dialogs-->
     <string name="edit_dialog_delete_message">Confirma Exclusão de %1$s</string>
@@ -77,6 +92,5 @@
     <string name="edit_image_selection_camera">Nova Foto</string>
     <string name="edit_order_dialog_message">Solicitar %1$d %2$s de %3$s?</string>
     <string name="edit_dialog_confirm">Confirmar</string>
-
 
 </resources>

@@ -38,7 +38,7 @@ public class InventoryProvider extends ContentProvider {
     private static final int INVENTORY = 100;
 
     /**
-     * Codigo estático para o URI de tabela inteira
+     * Codigo estático para o URI de um único Produto
      */
     private static final int INVENTORY_ID = 101;
 

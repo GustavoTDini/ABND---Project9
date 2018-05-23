@@ -147,6 +147,7 @@ public class EditActivity extends AppCompatActivity implements LoaderManager.Loa
             mOrderButton.setVisibility(View.VISIBLE);
             mStockControlView.setVisibility(View.VISIBLE);
             mDeleteButton.setVisibility(View.VISIBLE);
+            // Bloqueia a edição do estoque, deixando esta funcionalidade para os botões de Controle
             mProductStockView.setKeyListener(null);
             getLoaderManager().initLoader(INVENTORY_LOADER, null, this);
         }
@@ -594,10 +595,10 @@ public class EditActivity extends AppCompatActivity implements LoaderManager.Loa
     // abre o intent de Email
     private void emailOrder(String productName, int stockRequest) {
         String greeting;
-        String unit = "unidade";
+        String unit = getString(R.string.string_format_unit);
         // teste se o pedido é maior que uma unidade para corrigir o plural
         if (stockRequest > 1) {
-            unit = "unidades";
+            unit = getString(R.string.string_format_units);
         }
         // recebe a hora atual
         Calendar calendar = Calendar.getInstance();
@@ -605,18 +606,19 @@ public class EditActivity extends AppCompatActivity implements LoaderManager.Loa
 
         // mudamos a saudação dependendo da hora do dia
         if (currentHour >= 6 && currentHour <= 12) {
-            greeting = "Bom Dia";
+            greeting = getString(R.string.greeting_day);
         } else if (currentHour > 13 && currentHour <= 18) {
-            greeting = "Boa Tarde";
-        } else greeting = "Boa Noite";
-
-        Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
+            greeting = getString(R.string.greeting_afternoon);
+        } else greeting = getString(R.string.greeting_night);
+        productName = productName.replaceAll("\\s", "").toLowerCase();
         String[] email = {String.format(getResources().getString(R.string.email_order_address), productName)};
+        Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
+        emailIntent.setType(getString(R.string.intent_email_type));
+        emailIntent.setData(Uri.parse(getString(R.string.intent_email_data)));
         emailIntent.putExtra(Intent.EXTRA_EMAIL, email);
-        emailIntent.setData(Uri.parse("mailto:"));
         emailIntent.putExtra(Intent.EXTRA_SUBJECT, String.format(getResources().getString(R.string.email_order_subject), productName));
         emailIntent.putExtra(Intent.EXTRA_TEXT, String.format(getResources().getString(R.string.email_order_content), greeting, stockRequest, unit, productName));
-        startActivity(emailIntent);
+        startActivity(Intent.createChooser(emailIntent, getString(com.example.android.project9.R.string.edit_intent_send_email)));
     }
 
 
@@ -631,9 +633,9 @@ public class EditActivity extends AppCompatActivity implements LoaderManager.Loa
     // abre o intent da galeria com resultado
     private void selectPictureIntent() {
         Intent selectPicture = new Intent();
-        selectPicture.setType("image/*");
+        selectPicture.setType(getString(R.string.image_intent_type));
         selectPicture.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(selectPicture, "Select Picture"), REQUEST_PICK);
+        startActivityForResult(Intent.createChooser(selectPicture, getString(R.string.select_picture_intent)), REQUEST_PICK);
     }
 
     // Verifica o resultado do intent e coloca a imagem selecionada no ImageView
@@ -651,7 +653,7 @@ public class EditActivity extends AppCompatActivity implements LoaderManager.Loa
             switch (requestCode) {
                 // caso o resultado venha da camera, aplica essa imagem na ImageView diretamente
                 case REQUEST_CAPTURE:
-                    productImageBitmap = (Bitmap) extras.get("data");
+                    productImageBitmap = (Bitmap) extras.get(getString(R.string.intent_data));
                     mProductImageView.setImageBitmap(productImageBitmap);
                     break;
                 //  caso o resultado venha da galeria, temos que decodificar essa imagem com um Uri e codifica-la em um bitmap para utilizarmos

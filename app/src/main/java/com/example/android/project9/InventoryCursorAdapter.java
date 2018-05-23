@@ -35,15 +35,6 @@ public class InventoryCursorAdapter extends CursorAdapter {
     @Override
     public void bindView(View view, final Context context, final Cursor cursor) {
 
-        //Localiza os Views para serem populados
-        TextView nameTextView = view.findViewById(R.id.product_name);
-        TextView codeTextView = view.findViewById(R.id.code_value);
-        TextView sellValueTextView = view.findViewById(R.id.sell_value);
-        TextView buyValueTextView = view.findViewById(R.id.buy_value);
-        TextView stockQuantityTextView = view.findViewById(R.id.stock_quantity);
-        ImageView imageThumbNailView = view.findViewById(R.id.product_image);
-        Button sellButton = view.findViewById(R.id.sell_button);
-
         NumberFormat moneyFormat = NumberFormat.getCurrencyInstance(Locale.getDefault());
 
         // separa as colunas do cursor para cada atributo e lê cada atributo
@@ -69,18 +60,21 @@ public class InventoryCursorAdapter extends CursorAdapter {
         int imageColumnIndex = cursor.getColumnIndex(InventoryEntry.COLUMN_PRODUCT_IMAGE);
         String imageFilePath = cursor.getString(imageColumnIndex);
 
+        ViewHolder holder = new ViewHolder(view);
+        view.setTag(holder);
+
         // Atribui cada valor para o respectivo View
-        nameTextView.setText(productName);
-        codeTextView.setText(productCode);
-        sellValueTextView.setText(sellValue);
-        buyValueTextView.setText(buyValue);
-        stockQuantityTextView.setText(stockQuantity);
+        holder.name.setText(productName);
+        holder.code.setText(productCode);
+        holder.sellValue.setText(sellValue);
+        holder.buyValue.setText(buyValue);
+        holder.stockQuantity.setText(stockQuantity);
         if (!TextUtils.isEmpty(imageFilePath)) {
-            imageThumbNailView.setImageBitmap(InventoryProvider.openImageFile(context, imageFilePath));
+            holder.imageThumbNail.setImageBitmap(InventoryProvider.openImageFile(context, imageFilePath));
         }
 
         // botão de venda, faz a verificação se o estoque não é 0, caso contrario decrementa 1 unidade, e mostra uma mensagem, para cada situação
-        sellButton.setOnClickListener(new View.OnClickListener() {
+        holder.sellButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Resources res = context.getResources();
@@ -95,6 +89,31 @@ public class InventoryCursorAdapter extends CursorAdapter {
                 }
             }
         });
+
+    }
+
+    /**
+     * Holder que irá guardar os views que serão modificados na cricão da lista
+     */
+    public class ViewHolder {
+
+        final TextView name;
+        final TextView code;
+        final TextView sellValue;
+        final TextView buyValue;
+        final TextView stockQuantity;
+        final ImageView imageThumbNail;
+        final Button sellButton;
+
+        public ViewHolder(View view) {
+            name = view.findViewById(R.id.product_name);
+            code = view.findViewById(R.id.code_value);
+            sellValue = view.findViewById(R.id.sell_value);
+            buyValue = view.findViewById(R.id.buy_value);
+            stockQuantity = view.findViewById(R.id.stock_quantity);
+            imageThumbNail = view.findViewById(R.id.product_image);
+            sellButton = view.findViewById(R.id.sell_button);
+        }
 
     }
 
