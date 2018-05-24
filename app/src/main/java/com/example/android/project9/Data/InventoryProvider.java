@@ -63,7 +63,7 @@ public class InventoryProvider extends ContentProvider {
     /**
      * Método que verifica se já existe o produto na database
      */
-    public static Boolean checkIfContains(SQLiteDatabase readDatabase, String name, int code) {
+    public static boolean checkIfContains(SQLiteDatabase readDatabase, String name, int code) {
         String nameQuery = "SELECT * FROM " + InventoryEntry.TABLE_NAME + " WHERE " + InventoryEntry.COLUMN_PRODUCT_NAME + " = ? OR " + InventoryEntry.COLUMN_PRODUCT_CODE + " = ?";
         Cursor cursor = readDatabase.rawQuery(nameQuery, new String[]{name, String.valueOf(code)});
         if (cursor.getCount() == 0) {

@@ -4,7 +4,7 @@
     <string name="separation_bar">Separation Bar</string>
 
     <!--Strings do Inventário-->
-    <string name="empt_list_no_products">Sem Produtos para Venda</string>
+    <string name="empty_list_no_products">Sem Produtos para Venda \n\n Acesse o Menu Superior para Adicionar novos Produtos</string>
     <string name="empty_list_image">Empty List Image</string>
     <string name="no_more_products_toast">Sem mais %1$s para Vender</string>
     <string name="sold_one_more_toast">Mais um %1$s Vendido</string>
